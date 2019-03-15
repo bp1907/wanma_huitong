@@ -4,6 +4,7 @@ import 'package:wanma_huitong/common/config/config.dart';
 import 'package:wanma_huitong/common/utils/navigator_utils.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:wanma_huitong/common/redux/wm_state.dart';
+import 'package:wanma_huitong/common/utils/common_utils.dart';
 
 class LoginPage extends StatefulWidget {
 
@@ -103,7 +104,11 @@ class _LoginPageState extends State<LoginPage> {
                                 ],
                               ),
                               onPressed: (){
-                                NavigatorUtils.goHome(context);
+                                CommonUtils.showLoadingDialog(context);
+                                Future.delayed(const Duration(seconds: 3), () {
+                                  NavigatorUtils.goHome(context);
+                                  return true;
+                                });
                               },
                             ),
                             Padding(padding: new EdgeInsets.all(30.0)),

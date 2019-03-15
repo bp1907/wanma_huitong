@@ -3,6 +3,7 @@ import 'package:redux/redux.dart';
 import 'package:wanma_huitong/common/style/wm_style.dart';
 import 'package:wanma_huitong/common/redux/theme_data_reducer.dart';
 import 'package:wanma_huitong/common/local/local_storage.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class CommonUtils {
 
@@ -29,5 +30,41 @@ class CommonUtils {
       Colors.blueGrey,
       Colors.deepOrange,
     ];
+  }
+  //加载中
+  static Future showLoadingDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Material(
+          color: Colors.transparent,
+          child: WillPopScope(
+            child: Center(
+              child: Container(
+                width: 200.0,
+                height: 200.0,
+                padding: EdgeInsets.all(4.0),
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      child: SpinKitCubeGrid(color: Color(WMColors.white),),
+                    ),
+                    Container(height: 10.0,),
+                    Container(
+                      child: Text('加载中...',style: WMConstant.normalTextWhite,),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            onWillPop: () => Future.value(true),),
+        );
+      }
+    );
   }
 }
