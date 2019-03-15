@@ -7,7 +7,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:wanma_huitong/common/model/User.dart';
 import 'package:wanma_huitong/common/utils/common_utils.dart';
 import 'package:wanma_huitong/common/style/wm_style.dart';
-import 'package:wanma_huitong/page/gfz/order_status.dart';
 
 void main() => runApp(MyApp());
 
@@ -39,7 +38,6 @@ class MyApp extends StatelessWidget {
                 routes: {
                   LoginPage.sName: (context) => LoginPage(),
                   HomePage.sName: (context) => HomePage(),
-                  OrderStatus.sName: (context) => OrderStatus(),
                 },
                 home: LoginPage(),
               );

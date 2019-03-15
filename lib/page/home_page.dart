@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:wanma_huitong/common/utils/navigator_utils.dart';
 import 'package:wanma_huitong/widget/home_drawer.dart';
-import 'package:wanma_huitong/common/style/wm_style.dart';
 
 ///主页
 
@@ -47,12 +46,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
 
-//    List<Widget> tabs = [
-////      _renderTab(Icons.store, '工业4.0'),
-////      _renderTab(Icons.business, '业务'),
-////      _renderTab(Icons.devices_other, '其他'),
-////    ];
-
   List _imageUrls = [
     'images/gbg.jpg',
     'images/gbg.jpg',
@@ -84,22 +77,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               ),
               AreaItem(),
             ],
-        )/*TabBarView(
-          children: <Widget>[
-            FactorPage(),//工业4.0
-            BusinessPage(),//业务
-            OtherPage(),//其他
-          ],
-          controller: tabController,
         ),
-        bottomNavigationBar: Material(
-          color: Theme.of(context).primaryColor,
-          child: TabBar(
-            tabs: tabs,
-            controller: tabController,
-            indicatorColor: Colors.white,
-          ),
-        )*/,
       ),
       onWillPop: () => _dialogExitApp(context),
     );
@@ -124,7 +102,13 @@ class AreaItem extends StatelessWidget {
         crossAxisSpacing: 30.0,
         crossAxisCount: 3,
         children: <Widget>[
-          _renderTab(Icons.line_style, '无锡新区',size: 32.0,color: Colors.deepOrange),
+          InkWell(
+            child: _renderTab(Icons.line_style, '无锡新区',size: 32.0,color: Colors.deepOrange),
+            onTap: (){
+//             NavigatorUtils.goGfzOrderStatus(context);
+            Scaffold.of(context).showSnackBar(SnackBar(content: Text('暂未开通')));
+            },
+          ),
           _renderTab(Icons.linear_scale, '广州',size: 32.0,color: Colors.deepOrange),
           _renderTab(Icons.linear_scale, '重庆',size: 32.0,color: Colors.deepOrange),
         ],
@@ -132,8 +116,6 @@ class AreaItem extends StatelessWidget {
     );
   }
 }
-
-
 
 //单个底部菜单
 _renderTab(icon, text, {size, color}) {
@@ -143,63 +125,4 @@ _renderTab(icon, text, {size, color}) {
       children: <Widget>[Icon(icon, size: size,color: color,), Text(text,style: TextStyle(fontWeight: FontWeight.bold),)],
     ),
   );
-}
-
-
-//工业4.0页面
-class FactorPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return GridView.count(
-      primary: false,
-      padding: const EdgeInsets.all(20.0),
-      crossAxisSpacing: 30.0,
-      crossAxisCount: 3,
-      children: <Widget>[
-        _renderTab(Icons.line_style, '生产线列表',size: 32.0,color: Colors.deepOrange),
-        _renderTab(Icons.linear_scale, '历史运行曲线',size: 32.0,color: Colors.deepOrange),
-        _renderTab(Icons.linear_scale, '生产线运行日志',size: 32.0,color: Colors.deepOrange),
-        _renderTab(Icons.devices, '异常查询',size: 32.0,color: Colors.deepOrange),
-      ],
-    );
-  }
-}
-
-//业务页面
-class BusinessPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return GridView.count(
-      primary: false,
-      padding: const EdgeInsets.all(20.0),
-      crossAxisSpacing: 30.0,
-      crossAxisCount: 3,
-      children: <Widget>[
-        InkWell(
-          child: _renderTab(Icons.store, '订单状态',size: 32.0,color: Colors.deepOrange),
-          onTap: (){
-            NavigatorUtils.goGfzOrderStatus(context);
-//            Scaffold.of(context).showSnackBar(SnackBar(content: Text('暂未开通')));
-          },
-        ),
-
-        _renderTab(Icons.store, '应收货款',size: 32.0,color: Colors.deepOrange),
-        _renderTab(Icons.store, '货款回笼',size: 32.0,color: Colors.deepOrange),
-        _renderTab(Icons.store, '开票情况',size: 32.0,color: Colors.deepOrange),
-        _renderTab(Icons.store, '基准价',size: 32.0,color: Colors.deepOrange),
-        _renderTab(Icons.store, '目标情况',size: 32.0,color: Colors.deepOrange),
-        _renderTab(Icons.store, '发出情况',size: 32.0,color: Colors.deepOrange),
-        _renderTab(Icons.store, '发货跟踪',size: 32.0,color: Colors.deepOrange),
-      ],
-    );
-  }
-}
-
-class OtherPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('其他'),
-    );
-  }
 }
