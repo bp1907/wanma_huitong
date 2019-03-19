@@ -67,4 +67,14 @@ class CommonUtils {
       }
     );
   }
+
+  ///单个底部菜单
+  static renderTab(icon, text, {size, color}) {
+    return Tab(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[Icon(icon, size: size,color: color,), Text(text,style: TextStyle(fontWeight: FontWeight.bold),)],
+      ),
+    );
+  }
 }

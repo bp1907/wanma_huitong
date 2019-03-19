@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:wanma_huitong/common/event/http_error_event.dart';
+import 'package:wanma_huitong/common/net/code.dart';
 import 'package:wanma_huitong/page/login_page.dart';
 import 'package:wanma_huitong/page/home_page.dart';
 import 'package:wanma_huitong/common/redux/wm_state.dart';
@@ -7,6 +9,9 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:wanma_huitong/common/model/User.dart';
 import 'package:wanma_huitong/common/utils/common_utils.dart';
 import 'package:wanma_huitong/common/style/wm_style.dart';
+import 'dart:async';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:wanma_huitong/page/wuxi/wx_home_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -36,14 +41,81 @@ class MyApp extends StatelessWidget {
                 title: '万马会通',
                 theme: store.state.themeData,
                 routes: {
-                  LoginPage.sName: (context) => LoginPage(),
-                  HomePage.sName: (context) => HomePage(),
+                  LoginPage.sName: (context) => CommonLayer(child: LoginPage(),),
+                  HomePage.sName: (context) => CommonLayer(child: HomePage(),),
+                  WXHomePage.sName: (context) => CommonLayer(child: WXHomePage(),),
                 },
-                home: LoginPage(),
+                home: CommonLayer(
+                  child: LoginPage(),
+                ),
               );
             }
         ),
     );
   }
 }
+
+class CommonLayer extends StatefulWidget {
+  final Widget child;
+
+  CommonLayer({this.child});
+
+  @override
+  _CommonLayerState createState() => _CommonLayerState();
+}
+
+class _CommonLayerState extends State<CommonLayer> {
+
+  StreamSubscription stream;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    //stream控制eventbus的使用
+    stream = Code.eventBus.on<HttpErrorEvent>().listen((event) {
+      errorHandleFunction(event.code, event.message);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: widget.child,
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    if(stream != null) {
+      stream.cancel();
+      stream = null;
+    }
+  }
+
+  errorHandleFunction(int code, message) {
+    switch (code) {
+      case Code.NETWORK_ERROR:
+        Fluttertoast.showToast(msg: '网络错误');
+        break;
+      case Code.NETWORK_TIMEOUT:
+        Fluttertoast.showToast(msg: '请求超时');
+        break;
+      case 401:
+        Fluttertoast.showToast(msg: '[401错误可能: 未授权 \\ 授权登录失败 \\ 登录过期]');
+        break;
+      case 403:
+        Fluttertoast.showToast(msg: '403错误');
+        break;
+      case 404:
+        Fluttertoast.showToast(msg: '404错误');
+        break;
+      default:
+        Fluttertoast.showToast(msg: '其他异常 ' + message);
+        break;
+    }
+  }
+}
+
 

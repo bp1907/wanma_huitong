@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:wanma_huitong/common/utils/navigator_utils.dart';
 import 'package:wanma_huitong/widget/home_drawer.dart';
+import 'package:wanma_huitong/common/utils/common_utils.dart';
 
 ///主页
 
@@ -40,7 +41,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   void initState() {
     // TODO: implement initState
     super.initState();
-//    tabController = TabController(length: 3, vsync: this);
   }
 
   @override
@@ -103,26 +103,16 @@ class AreaItem extends StatelessWidget {
         crossAxisCount: 3,
         children: <Widget>[
           InkWell(
-            child: _renderTab(Icons.line_style, '无锡新区',size: 32.0,color: Colors.deepOrange),
+            child: CommonUtils.renderTab(Icons.line_style, '无锡新区',size: 32.0,color: Colors.deepOrange),
             onTap: (){
-//             NavigatorUtils.goGfzOrderStatus(context);
-            Scaffold.of(context).showSnackBar(SnackBar(content: Text('暂未开通')));
+             NavigatorUtils.goHomeWuXi(context);
+//            Scaffold.of(context).showSnackBar(SnackBar(content: Text('暂未开通')));
             },
           ),
-          _renderTab(Icons.linear_scale, '广州',size: 32.0,color: Colors.deepOrange),
-          _renderTab(Icons.linear_scale, '重庆',size: 32.0,color: Colors.deepOrange),
+          CommonUtils.renderTab(Icons.linear_scale, '广州',size: 32.0,color: Colors.deepOrange),
+          CommonUtils.renderTab(Icons.linear_scale, '重庆',size: 32.0,color: Colors.deepOrange),
         ],
       ),
     );
   }
-}
-
-//单个底部菜单
-_renderTab(icon, text, {size, color}) {
-  return Tab(
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[Icon(icon, size: size,color: color,), Text(text,style: TextStyle(fontWeight: FontWeight.bold),)],
-    ),
-  );
 }
