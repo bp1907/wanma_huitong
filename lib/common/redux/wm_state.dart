@@ -11,6 +11,12 @@ class WMState {
   ThemeData themeData;
   //构造方法
   WMState({this.userInfo,this.themeData});
+
+//  WMState fromJson(dynamic json) => json != null
+//      ? WMState(userInfo: json['userInfo'],themeData: json['themeData']) : WMState();
+//
+//  dynamic toJson() => {'userInfo' : userInfo,'themeData' : themeData};
+
 }
 
 //创建reducer

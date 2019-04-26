@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:wanma_huitong/common/utils/common_utils.dart';
+import 'package:wanma_huitong/common/utils/navigator_utils.dart';
 import 'package:wanma_huitong/page/wuxi/extrusion/home_extrusion.dart';
-import 'package:wanma_huitong/page/wuxi/first_bubble/home_fist_bubble.dart';
+import 'package:wanma_huitong/page/wuxi/first_bubble/first_bubble_detail.dart';
 import 'package:wanma_huitong/page/wuxi/pack/home_pack.dart';
-import 'package:wanma_huitong/page/wuxi/second_bubble/home_second_bubble.dart';
+import 'package:wanma_huitong/page/wuxi/second_bubble/second_bubble_curve.dart';
+import 'package:wanma_huitong/widget/grid_item.dart';
 
 class WXHomePage extends StatefulWidget {
 
@@ -13,47 +15,51 @@ class WXHomePage extends StatefulWidget {
   _WXHomePageState createState() => _WXHomePageState();
 }
 
-class _WXHomePageState extends State<WXHomePage> with SingleTickerProviderStateMixin{
+class _WXHomePageState extends State<WXHomePage>{
 
-  TabController tabController;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    tabController = TabController(length: 4, vsync: this);
   }
 
   @override
   Widget build(BuildContext context) {
-
-    List<Widget> tabs = [
-      CommonUtils.renderTab(Icons.store, '一次发泡'),
-      CommonUtils.renderTab(Icons.store, '二次发泡'),
-      CommonUtils.renderTab(Icons.table_chart, '打包'),
-      CommonUtils.renderTab(Icons.devices_other, '挤出'),
-    ];
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         title: Text('无锡新区'),
       ),
-      body: TabBarView(
-        children: <Widget> [
-          HomeFirstBubble(),
-          HomeSecondBubble(),
-          HomePack(),
-          HomeExtrusion(),
-        ],
-        controller: tabController,
-      ),
-      bottomNavigationBar: Material(
-        color: Theme.of(context).primaryColor,
-        child: TabBar(
-          tabs: tabs,
-          controller: tabController,
-          indicatorColor: Colors.white,
+      body: Container(
+        child: GridView.count(
+          primary: false,
+          padding: const EdgeInsets.all(20.0),
+          crossAxisSpacing: 30.0,
+          crossAxisCount: 3,
+          children: <Widget>[
+            GridItemWidget(
+              text: '一次发泡',
+              functionName: 'goFirstBubbleList',
+            ),
+            GridItemWidget(
+              text: '养生袋',
+              functionName: 'goHealthBagList',
+            ),
+            GridItemWidget(
+              text: '二次发泡',
+              functionName: 'goSecondBubbleList',
+            ),
+            GridItemWidget(
+              text: '预压罐',
+              functionName: 'goPrepressureTankList',
+            ),
+            GridItemWidget(
+              text: '打包',
+              functionName: 'goPackingDensityList',
+            ),
+          ],
         ),
       ),
     );
@@ -63,7 +69,6 @@ class _WXHomePageState extends State<WXHomePage> with SingleTickerProviderStateM
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    tabController.dispose();
   }
 }
 

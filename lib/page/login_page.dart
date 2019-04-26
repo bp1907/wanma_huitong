@@ -3,6 +3,7 @@ import 'package:wanma_huitong/common/dao/user_dao.dart';
 import 'package:wanma_huitong/common/local/local_storage.dart';
 import 'package:wanma_huitong/common/config/config.dart';
 import 'package:wanma_huitong/common/utils/navigator_utils.dart';
+import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:wanma_huitong/common/redux/wm_state.dart';
 import 'package:wanma_huitong/common/utils/common_utils.dart';
@@ -129,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
 //                                Future.delayed(Duration(seconds: 2), () {
 //                                  UserDao.login(_userName, _password, store).then((res) {
 //                                    Navigator.pop(context);
-//                                    if(res == null || res.result){
+//                                    if(res != null && res.result){
 //                                      Future.delayed(const Duration(seconds: 1), () {
 //                                        NavigatorUtils.goHome(context);
 //                                        return true;

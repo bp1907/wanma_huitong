@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:wanma_huitong/common/utils/navigator_utils.dart';
+import 'package:wanma_huitong/widget/grid_item.dart';
 import 'package:wanma_huitong/widget/home_drawer.dart';
-import 'package:wanma_huitong/common/utils/common_utils.dart';
 
 ///主页
 
@@ -102,15 +102,18 @@ class AreaItem extends StatelessWidget {
         crossAxisSpacing: 30.0,
         crossAxisCount: 3,
         children: <Widget>[
-          InkWell(
-            child: CommonUtils.renderTab(Icons.line_style, '无锡新区',size: 32.0,color: Colors.deepOrange),
-            onTap: (){
-             NavigatorUtils.goHomeWuXi(context);
-//            Scaffold.of(context).showSnackBar(SnackBar(content: Text('暂未开通')));
-            },
+          GridItemWidget(
+            text: '无锡新区',
+            functionName: 'goHomeWuXi',
           ),
-          CommonUtils.renderTab(Icons.linear_scale, '广州',size: 32.0,color: Colors.deepOrange),
-          CommonUtils.renderTab(Icons.linear_scale, '重庆',size: 32.0,color: Colors.deepOrange),
+          GridItemWidget(
+            text: '广州',
+            functionName: 'goHomeGZ',
+          ),
+          GridItemWidget(
+            text: '重庆',
+            functionName: 'goHomeCQ',
+          ),
         ],
       ),
     );

@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:wanma_huitong/page/home_page.dart';
 import 'package:wanma_huitong/page/login_page.dart';
+import 'package:wanma_huitong/page/wuxi/first_bubble/first_bubble_detail.dart';
+import 'package:wanma_huitong/page/wuxi/first_bubble/first_bubble_list.dart';
+import 'package:wanma_huitong/page/wuxi/first_bubble/health_bag_list.dart';
+import 'package:wanma_huitong/page/wuxi/pack/packing_density_list.dart';
+import 'package:wanma_huitong/page/wuxi/second_bubble/prepressure_tank_list.dart';
+import 'package:wanma_huitong/page/wuxi/second_bubble/second_bubble_list.dart';
 import 'package:wanma_huitong/page/wuxi/wx_home_page.dart';
 
 ///导航栏
@@ -16,10 +22,38 @@ class NavigatorUtils {
     Navigator.pushReplacementNamed(context, HomePage.sName);
   }
 
-  ///无锡新区主页
+  ///无锡新区
+  ///主页
   static goHomeWuXi(BuildContext context) {
     Navigator.pushNamed(context, WXHomePage.sName);
   }
+
+  ///一次发泡
+  ///生产线列表
+  static goFirstBubbleList(BuildContext context) {
+    Navigator.pushNamed(context, FirstBubbleList.sName);
+  }
+
+  ///养生袋清单
+  static goHealthBagList(BuildContext context) {
+    Navigator.pushNamed(context, HealthBagList.sName);
+  }
+
+  ///二次发泡清单
+  static goSecondBubbleList(BuildContext context) {
+    Navigator.pushNamed(context, SecondBubbleList.sName);
+  }
+
+  ///预压罐清单
+  static goPrepressureTankList(BuildContext context) {
+    Navigator.pushNamed(context, PrepressureTankList.sName);
+  }
+
+  ///打包密度清单
+  static goPackingDensityList(BuildContext context) {
+    Navigator.pushNamed(context, PackingDensityList.sName);
+  }
+
 
 //  static NavigatorRouter(BuildContext context,Widget widget) {
 //    return Navigator.push(context, CupertinoPageRoute(builder: (context) => widget));

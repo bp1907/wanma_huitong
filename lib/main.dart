@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wanma_huitong/common/dao/user_dao.dart';
 import 'package:wanma_huitong/common/event/http_error_event.dart';
 import 'package:wanma_huitong/common/net/code.dart';
 import 'package:wanma_huitong/page/login_page.dart';
@@ -11,6 +12,11 @@ import 'package:wanma_huitong/common/utils/common_utils.dart';
 import 'package:wanma_huitong/common/style/wm_style.dart';
 import 'dart:async';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:wanma_huitong/page/wuxi/first_bubble/first_bubble_list.dart';
+import 'package:wanma_huitong/page/wuxi/first_bubble/health_bag_list.dart';
+import 'package:wanma_huitong/page/wuxi/pack/packing_density_list.dart';
+import 'package:wanma_huitong/page/wuxi/second_bubble/prepressure_tank_list.dart';
+import 'package:wanma_huitong/page/wuxi/second_bubble/second_bubble_list.dart';
 import 'package:wanma_huitong/page/wuxi/wx_home_page.dart';
 
 void main() => runApp(MyApp());
@@ -44,6 +50,13 @@ class MyApp extends StatelessWidget {
                   LoginPage.sName: (context) => CommonLayer(child: LoginPage(),),
                   HomePage.sName: (context) => CommonLayer(child: HomePage(),),
                   WXHomePage.sName: (context) => CommonLayer(child: WXHomePage(),),
+                  FirstBubbleList.sName: (context) => CommonLayer(child: FirstBubbleList(),),
+                  HealthBagList.sName: (context) => CommonLayer(child: HealthBagList(),),
+                  SecondBubbleList.sName: (context) => CommonLayer(child: SecondBubbleList()),
+                  PrepressureTankList.sName: (context) => CommonLayer(child: PrepressureTankList(),),
+                  PackingDensityList.sName: (context) => CommonLayer(child: PackingDensityList(),)
+//                  FirstBubbleDetail.sName: (context) => CommonLayer(child: FirstBubbleDetail(),),
+//                  FirstBubbleCurve.sName: (context) => CommonLayer(child: FirstBubbleCurve(),),
                 },
                 home: CommonLayer(
                   child: LoginPage(),

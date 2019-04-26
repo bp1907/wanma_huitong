@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
+import 'package:wanma_huitong/common/config/config.dart';
 import 'package:wanma_huitong/common/style/wm_style.dart';
 import 'package:wanma_huitong/common/redux/theme_data_reducer.dart';
 import 'package:wanma_huitong/common/local/local_storage.dart';
@@ -17,7 +18,6 @@ class CommonUtils {
     List<Color> colors = getThemeListColor();
     themeData = getThemeData(colors[index]);
     store.dispatch(RefreshThemeDataAction(themeData));
-    LocalStorage.save('local_theme', index.toString());
   }
 
   static List<Color> getThemeListColor() {

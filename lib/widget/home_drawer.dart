@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:wanma_huitong/common/config/config.dart';
+import 'package:wanma_huitong/common/local/local_storage.dart';
 import 'package:wanma_huitong/common/utils/common_utils.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -66,6 +68,7 @@ class HomeDrawer extends StatelessWidget {
                     onPressed: (){
                       Navigator.pop(context);
                       CommonUtils.pushTheme(store, index);
+                      LocalStorage.save(Config.THEME_COLOR, index.toString());
                     },
                   );
                 },
