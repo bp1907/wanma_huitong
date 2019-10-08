@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:wanma_huitong/page/common/update_pwd.dart';
 import 'package:wanma_huitong/page/home_page.dart';
 import 'package:wanma_huitong/page/login_page.dart';
 import 'package:wanma_huitong/page/wuxi/first_bubble/first_bubble_detail.dart';
@@ -24,14 +25,23 @@ class NavigatorUtils {
 
   ///无锡新区
   ///主页
-  static goHomeWuXi(BuildContext context) {
-    Navigator.pushNamed(context, WXHomePage.sName);
+  static goHomeWuXi(BuildContext context, String mid) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => WXHomePage(mid),
+      ),
+    );
   }
 
   ///一次发泡
   ///生产线列表
-  static goFirstBubbleList(BuildContext context) {
-    Navigator.pushNamed(context, FirstBubbleList.sName);
+  static goFirstBubbleList(BuildContext context, String mid) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FirstBubbleList(mid),
+      ),
+    );
   }
 
   ///养生袋清单
@@ -52,6 +62,18 @@ class NavigatorUtils {
   ///打包密度清单
   static goPackingDensityList(BuildContext context) {
     Navigator.pushNamed(context, PackingDensityList.sName);
+  }
+
+
+  ///通用
+  ///修改密码
+  static goUpdatePwd(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => UpdatePwd(),
+      ),
+    );
   }
 
 

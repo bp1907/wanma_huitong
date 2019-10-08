@@ -49,12 +49,12 @@ class MyApp extends StatelessWidget {
                 routes: {
                   LoginPage.sName: (context) => CommonLayer(child: LoginPage(),),
                   HomePage.sName: (context) => CommonLayer(child: HomePage(),),
-                  WXHomePage.sName: (context) => CommonLayer(child: WXHomePage(),),
-                  FirstBubbleList.sName: (context) => CommonLayer(child: FirstBubbleList(),),
-                  HealthBagList.sName: (context) => CommonLayer(child: HealthBagList(),),
-                  SecondBubbleList.sName: (context) => CommonLayer(child: SecondBubbleList()),
-                  PrepressureTankList.sName: (context) => CommonLayer(child: PrepressureTankList(),),
-                  PackingDensityList.sName: (context) => CommonLayer(child: PackingDensityList(),)
+//                  WXHomePage.sName: (context) => CommonLayer(child: WXHomePage(),),
+//                  FirstBubbleList.sName: (context) => CommonLayer(child: FirstBubbleList(),),
+//                  HealthBagList.sName: (context) => CommonLayer(child: HealthBagList(),),
+//                  SecondBubbleList.sName: (context) => CommonLayer(child: SecondBubbleList()),
+//                  PrepressureTankList.sName: (context) => CommonLayer(child: PrepressureTankList(),),
+//                  PackingDensityList.sName: (context) => CommonLayer(child: PackingDensityList(),)
 //                  FirstBubbleDetail.sName: (context) => CommonLayer(child: FirstBubbleDetail(),),
 //                  FirstBubbleCurve.sName: (context) => CommonLayer(child: FirstBubbleCurve(),),
                 },
@@ -115,6 +115,9 @@ class _CommonLayerState extends State<CommonLayer> {
       case Code.NETWORK_TIMEOUT:
         Fluttertoast.showToast(msg: '请求超时');
         break;
+//      case 200:
+//        Fluttertoast.showToast(msg: message);
+//        break;
       case 401:
         Fluttertoast.showToast(msg: '[401错误可能: 未授权 \\ 授权登录失败 \\ 登录过期]');
         break;

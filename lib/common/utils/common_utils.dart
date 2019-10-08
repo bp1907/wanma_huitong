@@ -52,7 +52,7 @@ class CommonUtils {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      child: SpinKitCubeGrid(color: Color(WMColors.white),),
+                      child: SpinKitCubeGrid(color: Color(WMColors.white)),
                     ),
                     Container(height: 10.0,),
                     Container(
@@ -73,7 +73,11 @@ class CommonUtils {
     return Tab(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[Icon(icon, size: size,color: color,), Text(text,style: TextStyle(fontWeight: FontWeight.bold),)],
+        children: <Widget>[
+          Icon(icon, size: size,color: color,),
+          Padding(padding: EdgeInsets.all(2.0)),
+          Text(text,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 12.0),)
+        ],
       ),
     );
   }

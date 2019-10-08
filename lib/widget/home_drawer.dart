@@ -117,7 +117,7 @@ class HomeDrawer extends StatelessWidget {
                         ListTile(
                           title: Text('修改密码', style: WMConstant.normalText,),
                           onTap: (){
-                            //TODO
+                            NavigatorUtils.goUpdatePwd(context);
                           },
                         ),
                         ListTile(

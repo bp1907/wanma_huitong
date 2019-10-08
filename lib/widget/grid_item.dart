@@ -6,8 +6,9 @@ class GridItemWidget extends StatelessWidget {
 
   final String text;
   final String functionName;
+  final String mid;
 
-  GridItemWidget({Key key,this.text,this.functionName}): super(key:key);
+  GridItemWidget({Key key,this.text,this.functionName,this.mid}): super(key:key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class GridItemWidget extends StatelessWidget {
      onTap: () {
         switch(functionName) {
           case 'goHomeWuXi':
-            NavigatorUtils.goHomeWuXi(context);
+            NavigatorUtils.goHomeWuXi(context,mid);
             break;
           case 'goHomeGZ':
             Scaffold.of(context).showSnackBar(SnackBar(content: Text('暂未开通')));
@@ -25,7 +26,7 @@ class GridItemWidget extends StatelessWidget {
             Scaffold.of(context).showSnackBar(SnackBar(content: Text('暂未开通')));
             break;
           case 'goFirstBubbleList':
-            NavigatorUtils.goFirstBubbleList(context);
+            NavigatorUtils.goFirstBubbleList(context,mid);
             break;
           case 'goHealthBagList':
             NavigatorUtils.goHealthBagList(context);

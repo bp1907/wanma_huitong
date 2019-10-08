@@ -11,6 +11,17 @@ class FirstBubbleDetail extends StatefulWidget {
 }
 
 class _FirstBubbleDetailState extends State<FirstBubbleDetail> {
+
+  var _futureStr;//json数据
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    _futureStr = null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

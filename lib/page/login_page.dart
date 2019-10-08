@@ -113,30 +113,30 @@ class _LoginPageState extends State<LoginPage> {
                                 ],
                               ),
                               onPressed: (){
-                                CommonUtils.showLoadingDialog(context);
-                                Future.delayed(const Duration(seconds: 2), () {
-                                  NavigatorUtils.goHome(context);
-                                  return true;
-                                });
-//                                if(_userName == null || _userName.length == 0) {
-//                                  Fluttertoast.showToast(msg: '请输入用户名');
-//                                  return;
-//                                }
-//                                if(_password == null || _password.length == 0) {
-//                                  Fluttertoast.showToast(msg: '请输入密码');
-//                                  return;
-//                                }
 //                                CommonUtils.showLoadingDialog(context);
-//                                Future.delayed(Duration(seconds: 2), () {
-//                                  UserDao.login(_userName, _password, store).then((res) {
-//                                    Navigator.pop(context);
-//                                    if(res != null && res.result){
-//                                      Future.delayed(const Duration(seconds: 1), () {
-//                                        NavigatorUtils.goHome(context);
-//                                        return true;
-//                                      });
-//                                    }
-//                                  });
+//                                Future.delayed(const Duration(seconds: 2), () {
+//                                  NavigatorUtils.goHome(context);
+//                                  return true;
+//                                });
+                                if(_userName == null || _userName.length == 0) {
+                                  Fluttertoast.showToast(msg: '请输入用户名');
+                                  return;
+                                }
+                                if(_password == null || _password.length == 0) {
+                                  Fluttertoast.showToast(msg: '请输入密码');
+                                  return;
+                                }
+                                CommonUtils.showLoadingDialog(context);
+//                                Future.delayed(Duration(seconds: 1), () {
+                                  UserDao.login(_userName, _password, store).then((res) {
+                                    Navigator.pop(context);
+                                    if(res != null && res.result){
+                                      Future.delayed(const Duration(milliseconds: 500), () {
+                                        NavigatorUtils.goHome(context);
+                                        return true;
+                                      });
+                                    }
+                                  });
 //                                });
                               },
                             ),

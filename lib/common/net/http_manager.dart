@@ -18,6 +18,10 @@ class HttpManager {
   };
 
   ///发起网络请求
+  ///[ url] 请求url
+  ///[ params] 请求参数
+  ///[ header] 外加头
+  ///[ option] 配置
   static netFetch(url, params, Map<String,String> header, Options option, {noTip = false}) async{
     //判断网络
     var connectivityResult = await Connectivity().checkConnectivity();
@@ -53,7 +57,7 @@ class HttpManager {
     Dio dio = Dio();
     Response response;
     try{
-      response = await dio.request(url,data: params,options: option);
+      response = await dio.request(url,queryParameters: params,options: option);
     }on DioError catch(e) {
       Response errorResponse;
       if(e.response != null) {
@@ -86,26 +90,25 @@ class HttpManager {
       }
     }
 
-    try{
-      if(option.contentType != null && option.contentType.primaryType == 'text') {
-        return ResultData(response.data, true, Code.SUCCESS);
-      }else {
-        var responseJson = response.data;
-        //请求已创建
-        if(response.statusCode == 201 && responseJson['token'] != null) {
-          optionParams['authorizationCode'] = 'token ' + responseJson['token'];
-          await LocalStorage.save(Config.TOKEN_KEY, optionParams['authorizationCode']);
+    if(option.contentType != null && option.contentType.primaryType == 'text') {
+      return ResultData(response.data, true, Code.SUCCESS);
+    }else {
+      var responseJson = response.data;
+
+      if(response.statusCode == 200) {
+        try{
+          if(responseJson['result']['token'] != null) {
+            optionParams['authorizationCode'] = responseJson['result']['token'];
+            await LocalStorage.save(Config.TOKEN_KEY, optionParams['authorizationCode']);
+          }
+        }catch (e) {
         }
       }
-
-      if(response.statusCode == 200 || response.statusCode == 201) {
-        return ResultData(response.data, true, Code.SUCCESS, headers: response.headers);
-      }
-    }catch(e) {
-      print(e.toString() + url);
-      return ResultData(response.data, false, response.statusCode,headers: response.headers);
     }
 
+    if(response.statusCode == 200) {
+      return ResultData(response.data, true, Code.SUCCESS, headers: response.headers);
+    }
     return ResultData(Code.errorHandleFunction(response.statusCode, '', noTip), false, response.statusCode);
   }
 
@@ -115,20 +118,14 @@ class HttpManager {
     LocalStorage.remove(Config.TOKEN_KEY);
   }
 
-///获取授权token
-static getAuthorization() async{
+  ///获取授权token
+  static getAuthorization() async{
     String token = await LocalStorage.get(Config.TOKEN_KEY);
     if(token == null) {
-      String basic = await LocalStorage.get(Config.USER_BASIC_CODE);
-      if(basic == null) {
-        //提示输入账号密码
-      }else {
-        //通过basic获取token
-        return 'Basic $basic';
-      }
+      //提示输入账号密码
     }else {
       optionParams['authorizationCode'] = token;
       return token;
     }
-}
+  }
 }

@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:wanma_huitong/common/utils/navigator_utils.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:wanma_huitong/common/dao/data_dao.dart';
+import 'package:wanma_huitong/common/json/json_string.dart';
+import 'package:wanma_huitong/common/model/app_menu_model.dart';
+import 'package:wanma_huitong/common/net/http_manager.dart';
 import 'package:wanma_huitong/widget/grid_item.dart';
 import 'package:wanma_huitong/widget/home_drawer.dart';
+import 'dart:convert';
 
 ///主页
 
@@ -15,6 +20,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin{
 
 //  TabController tabController;
+
+  var _futureStr;
 
   /// 提示退出
   Future<bool> _dialogExitApp(BuildContext context) {
@@ -39,8 +46,22 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+
+    _futureStr = _getAppMenu();
+  }
+
+  Future _getAppMenu() async {
+//    AppMenuModel appMenuModel;
+    String token = await HttpManager.getAuthorization();
+    String mid = '0';
+    String allTag = '0';
+    String m = 'HTAPP';
+    var data = await DataDao.getAppMenu(token, mid, allTag, m);
+//    if(appMenuModel.code == '0'){
+//      return json.decode(JsonString.mockdata);
+    return data;
+//    }
   }
 
   @override
@@ -52,35 +73,52 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     'images/gbg.jpg',
   ];
 
-    return WillPopScope(
-      child: Scaffold(
-        drawer: HomeDrawer(),
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).primaryColor,
-          title: Text('万马会通'),
-        ),
-        body: Column(
-            children: <Widget>[
-              Container(
-                height: 180.0,
-                child: Swiper(
-                  itemCount: _imageUrls.length,
-                  autoplay: true,
-                  itemBuilder: (BuildContext context, int index){
-                    return Image.asset(
-                      _imageUrls[index],
-                      fit: BoxFit.fill,
-                    );
-                  },
-                  pagination: SwiperPagination(),
-                ),
-              ),
-              AreaItem(),
-            ],
-        ),
+  return WillPopScope(
+    child: Scaffold(
+      drawer: HomeDrawer(),
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
+        title: Text('万马会通'),
       ),
-      onWillPop: () => _dialogExitApp(context),
-    );
+      body: Column(
+        children: <Widget>[
+          Container(
+            height: 180.0,
+            child: Swiper(
+              itemCount: _imageUrls.length,
+              autoplay: true,
+              itemBuilder: (BuildContext context, int index){
+                return Image.asset(
+                  _imageUrls[index],
+                  fit: BoxFit.fill,
+                );
+              },
+              pagination: SwiperPagination(),
+            ),
+          ),
+      FutureBuilder(
+        future: _futureStr,
+        builder: (context, snapshot) {
+          switch(snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return Center(child: CircularProgressIndicator(semanticsLabel: '加载中...',),);
+            case ConnectionState.done:
+              if(snapshot.hasError) {
+                return Text('${snapshot.error}',style: TextStyle(color: Colors.red),);
+              }else {
+                return AreaItem(snapshot.data['result']);
+              }
+              break;
+            default:
+              break;
+          }
+        },
+      ),
+        ],
+      ),
+    ),
+    onWillPop: () => _dialogExitApp(context),
+  );
   }
 
   @override
@@ -92,29 +130,54 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 }
 
 class AreaItem extends StatelessWidget {
+
+  final List data;
+
+  AreaItem(this.data);
+//  final AppMenuModel appMenuModel;
+//
+//  AreaItem(this.appMenuModel);
+
+  final items = <Widget>[];
+
+  _getItem() {
+    for(int i = 0;i<data.length;i++) {
+      var item = GridItemWidget(
+        text: data[i]['title'],
+        functionName: 'goHomeWuXi',
+        mid: data[i]['id'].toString(),
+      );
+      items.add(item);
+    }
+    return items;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 300.0,
-      child: GridView.count(
-        primary: false,
-        padding: const EdgeInsets.all(20.0),
-        crossAxisSpacing: 30.0,
-        crossAxisCount: 3,
-        children: <Widget>[
-          GridItemWidget(
-            text: '无锡新区',
-            functionName: 'goHomeWuXi',
+    return SingleChildScrollView(
+      child: Container(
+        height: 300.0,
+        child: GridView(
+          primary: false,
+          padding: const EdgeInsets.all(20.0),
+          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 100,
+            crossAxisSpacing: 10.0
           ),
-          GridItemWidget(
-            text: '广州',
-            functionName: 'goHomeGZ',
-          ),
-          GridItemWidget(
-            text: '重庆',
-            functionName: 'goHomeCQ',
-          ),
-        ],
+          children: _getItem(),
+//            GridItemWidget(
+//              text: data,
+//              functionName: 'goHomeWuXi',
+//            ),
+//            GridItemWidget(
+//              text: '广州',
+//              functionName: 'goHomeGZ',
+//            ),
+//            GridItemWidget(
+//              text: '重庆',
+//              functionName: 'goHomeCQ',
+//            ),
+        ),
       ),
     );
   }
