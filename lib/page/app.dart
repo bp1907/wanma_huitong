@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:wanma_huitong/common/config/config.dart';
 import 'package:wanma_huitong/common/dao/data_dao.dart';
-import 'package:wanma_huitong/common/json/json_string.dart';
-import 'package:wanma_huitong/common/model/app_menu_model.dart';
 import 'package:wanma_huitong/common/net/http_manager.dart';
 import 'package:wanma_huitong/page/business_page.dart';
 import 'package:wanma_huitong/page/home_page.dart';
 import 'package:wanma_huitong/page/my_page.dart';
 import 'package:wanma_huitong/page/service_page.dart';
-import 'package:wanma_huitong/widget/grid_item.dart';
 import 'package:wanma_huitong/widget/home_drawer.dart';
-import 'dart:convert';
 
 ///主页
 
@@ -91,7 +86,7 @@ class _AppState extends State<App> with SingleTickerProviderStateMixin{
       drawer: HomeDrawer(),
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: Text('万马会通'),
+        title: Text(Config.APP_TITLE),
       ),
       body: PageView(
         controller: _pageController,

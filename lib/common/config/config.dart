@@ -9,4 +9,7 @@ class Config {
   static const USER_INFO = "user_info";
   static const THEME_COLOR = "theme_color";
   static const LOCALE = "locale";
+
+  /// //////////////////////////////////////标题常量/////////////////////////////////// ///
+  static const APP_TITLE = "万马会通";
 }
