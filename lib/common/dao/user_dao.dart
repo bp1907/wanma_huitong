@@ -14,6 +14,7 @@ import 'package:wanma_huitong/common/utils/common_utils.dart';
 import 'package:wanma_huitong/common/net/code.dart';
 
 class UserDao {
+  ///登录
   static login(userName, password, store) async {
 //    String type = userName + ':' +password;
 //    var bytes = utf8.encode(type);
@@ -38,10 +39,14 @@ class UserDao {
       var resultData;
       if(res.data['msg'] == '成功'){
         await LocalStorage.save(Config.PW_KEY, password);
+
         User user = User(userName: userName, password: password);
         //存入数据库
         UserInfoDbProvider provider = UserInfoDbProvider();
         provider.insert(userName, password);
+
+        //保存用户信息
+        LocalStorage.save(Config.USER_INFO, json.encode(user.toJson()));
 
         resultData= ResultDao(user, res.result);
         if (Config.DEBUG) {
@@ -86,22 +91,45 @@ class UserDao {
   }
 
   ///获取用户信息
-  static getUserInfo(String userName) async {
-    UserInfoDbProvider provider = UserInfoDbProvider();
-    var res = await HttpManager.netFetch('', null, null, null);
-  }
-
+//  static getUserInfo(String userName) async {
+//    UserInfoDbProvider provider = UserInfoDbProvider();
+//    var res = await HttpManager.netFetch('', null, null, null);
+//  }
+  
   static clearAll(Store store) async {
     HttpManager.clearAuthorization();
     LocalStorage.remove(Config.USER_INFO);
     store.dispatch(new UpdateUserAction(User.empty()));
   }
 
+  ///初始化用户信息
   static initUserInfo(Store store) async {
+    
+    var token = await LocalStorage.get(Config.TOKEN_KEY);
+    ResultDao res = await getUserInfoLocal();
+
+    if(res != null && res.result && token != null) {
+      store.dispatch(UpdateUserAction(res.data));
+    }
+    
     //读取主题
     String themeIndex = await LocalStorage.get(Config.THEME_COLOR);
     if(themeIndex != null && themeIndex.length != 0) {
       CommonUtils.pushTheme(store, int.parse(themeIndex));
+    }
+
+    return ResultDao(res.data, (res.result && (token != null)));
+  }
+
+  ///获取本地登录用户信息
+  static getUserInfoLocal() async {
+    var userText = await LocalStorage.get(Config.USER_INFO);
+    if(userText != null) {
+      var userMap = json.decode(userText);
+      User user = User.fromJson(userMap);
+      return ResultDao(user, true);
+    }else {
+      return ResultDao(null, false);
     }
   }
 }

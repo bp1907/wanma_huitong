@@ -1,23 +1,18 @@
-import 'package:flutter/material.dart';
-import 'package:wanma_huitong/common/dao/user_dao.dart';
-import 'package:wanma_huitong/common/event/http_error_event.dart';
-import 'package:wanma_huitong/common/net/code.dart';
-import 'package:wanma_huitong/page/login_page.dart';
-import 'package:wanma_huitong/page/home_page.dart';
-import 'package:wanma_huitong/common/redux/wm_state.dart';
-import 'package:redux/redux.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:wanma_huitong/common/model/User.dart';
-import 'package:wanma_huitong/common/utils/common_utils.dart';
-import 'package:wanma_huitong/common/style/wm_style.dart';
 import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:wanma_huitong/page/wuxi/first_bubble/first_bubble_list.dart';
-import 'package:wanma_huitong/page/wuxi/first_bubble/health_bag_list.dart';
-import 'package:wanma_huitong/page/wuxi/pack/packing_density_list.dart';
-import 'package:wanma_huitong/page/wuxi/second_bubble/prepressure_tank_list.dart';
-import 'package:wanma_huitong/page/wuxi/second_bubble/second_bubble_list.dart';
-import 'package:wanma_huitong/page/wuxi/wx_home_page.dart';
+import 'package:redux/redux.dart';
+import 'package:wanma_huitong/common/event/http_error_event.dart';
+import 'package:wanma_huitong/common/model/User.dart';
+import 'package:wanma_huitong/common/net/code.dart';
+import 'package:wanma_huitong/common/redux/wm_state.dart';
+import 'package:wanma_huitong/common/style/wm_style.dart';
+import 'package:wanma_huitong/common/utils/common_utils.dart';
+import 'package:wanma_huitong/page/app.dart';
+import 'package:wanma_huitong/page/login_page.dart';
+import 'package:wanma_huitong/page/welcome_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -47,20 +42,13 @@ class MyApp extends StatelessWidget {
                 title: '万马会通',
                 theme: store.state.themeData,
                 routes: {
+                  WelcomePage.sName: (context) => WelcomePage(),
                   LoginPage.sName: (context) => CommonLayer(child: LoginPage(),),
-                  HomePage.sName: (context) => CommonLayer(child: HomePage(),),
-//                  WXHomePage.sName: (context) => CommonLayer(child: WXHomePage(),),
-//                  FirstBubbleList.sName: (context) => CommonLayer(child: FirstBubbleList(),),
-//                  HealthBagList.sName: (context) => CommonLayer(child: HealthBagList(),),
-//                  SecondBubbleList.sName: (context) => CommonLayer(child: SecondBubbleList()),
-//                  PrepressureTankList.sName: (context) => CommonLayer(child: PrepressureTankList(),),
-//                  PackingDensityList.sName: (context) => CommonLayer(child: PackingDensityList(),)
-//                  FirstBubbleDetail.sName: (context) => CommonLayer(child: FirstBubbleDetail(),),
-//                  FirstBubbleCurve.sName: (context) => CommonLayer(child: FirstBubbleCurve(),),
+                  App.sName: (context) => CommonLayer(child: App(),),
                 },
-                home: CommonLayer(
-                  child: LoginPage(),
-                ),
+//                home: CommonLayer(
+//                  child: LoginPage(),
+//                ),
               );
             }
         ),

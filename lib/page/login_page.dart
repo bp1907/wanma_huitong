@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:wanma_huitong/common/config/config.dart';
 import 'package:wanma_huitong/common/dao/user_dao.dart';
 import 'package:wanma_huitong/common/local/local_storage.dart';
-import 'package:wanma_huitong/common/config/config.dart';
-import 'package:wanma_huitong/common/utils/navigator_utils.dart';
-import 'package:redux/redux.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:wanma_huitong/common/redux/wm_state.dart';
 import 'package:wanma_huitong/common/utils/common_utils.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:wanma_huitong/common/utils/navigator_utils.dart';
 
 class LoginPage extends StatefulWidget {
 
@@ -64,11 +63,6 @@ class _LoginPageState extends State<LoginPage> {
                 child: SafeArea(
                   child: SingleChildScrollView(
                     child: Container(
-//                      elevation: 5.0,
-//                      shape: RoundedRectangleBorder(
-//                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-//                      ),
-//                      color: Colors.white,
                       margin: const EdgeInsets.only(left: 30.0,right: 30.0,bottom: 60.0),
                       child: Padding(
                         padding: EdgeInsets.only(left: 30.0,top: 40.0,right: 30.0,bottom: 0.0),
@@ -131,13 +125,12 @@ class _LoginPageState extends State<LoginPage> {
                                   UserDao.login(_userName, _password, store).then((res) {
                                     Navigator.pop(context);
                                     if(res != null && res.result){
-                                      Future.delayed(const Duration(milliseconds: 500), () {
+                                      Future.delayed(const Duration(milliseconds: 500), () async {
                                         NavigatorUtils.goHome(context);
                                         return true;
                                       });
                                     }
                                   });
-//                                });
                               },
                             ),
                             Padding(padding: new EdgeInsets.all(30.0)),

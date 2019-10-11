@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wanma_huitong/common/config/config.dart';
+import 'package:wanma_huitong/common/dao/user_dao.dart';
+import 'package:wanma_huitong/common/db/base_db_manager.dart';
 import 'package:wanma_huitong/common/local/local_storage.dart';
 import 'package:wanma_huitong/common/utils/common_utils.dart';
 import 'package:redux/redux.dart';
@@ -151,6 +153,8 @@ class HomeDrawer extends StatelessWidget {
                               ],
                             ),
                             onPressed: (){
+                              UserDao.clearAll(store);
+                              BaseDbManager.close();
                               NavigatorUtils.goLogin(context);
                             },
                           ),

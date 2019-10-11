@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:wanma_huitong/page/app.dart';
 import 'package:wanma_huitong/page/common/update_pwd.dart';
-import 'package:wanma_huitong/page/home_page.dart';
 import 'package:wanma_huitong/page/login_page.dart';
-import 'package:wanma_huitong/page/wuxi/first_bubble/first_bubble_detail.dart';
 import 'package:wanma_huitong/page/wuxi/first_bubble/first_bubble_list.dart';
 import 'package:wanma_huitong/page/wuxi/first_bubble/health_bag_list.dart';
 import 'package:wanma_huitong/page/wuxi/pack/packing_density_list.dart';
@@ -20,7 +19,7 @@ class NavigatorUtils {
   }
   ///主页
   static goHome(BuildContext context) {
-    Navigator.pushReplacementNamed(context, HomePage.sName);
+    Navigator.pushReplacementNamed(context, App.sName);
   }
 
   ///无锡新区

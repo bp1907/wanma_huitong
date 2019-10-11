@@ -13,7 +13,7 @@ class GridItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      child: CommonUtils.renderTab(Icons.line_style, text,size: 32.0,color: Colors.deepOrange),
+      child: CommonUtils.renderTab(Icons.line_style, text,size: 32.0,color: Theme.of(context).primaryColor),
      onTap: () {
         switch(functionName) {
           case 'goHomeWuXi':
