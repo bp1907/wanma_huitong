@@ -13,8 +13,12 @@ import 'package:wanma_huitong/common/utils/common_utils.dart';
 import 'package:wanma_huitong/page/app.dart';
 import 'package:wanma_huitong/page/login_page.dart';
 import 'package:wanma_huitong/page/welcome_page.dart';
+import 'package:flutter/rendering.dart' show debugPaintSizeEnabled;
 
-void main() => runApp(MyApp());
+void main() {
+  debugPaintSizeEnabled = true; //打开视觉调试开关
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
 

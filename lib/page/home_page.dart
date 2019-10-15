@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:wanma_huitong/common/dao/data_dao.dart';
+import 'package:wanma_huitong/common/net/http_manager.dart';
+import 'package:wanma_huitong/page/app.dart';
 import 'package:wanma_huitong/widget/grid_item.dart';
 
 class HomePage extends StatelessWidget {
@@ -28,8 +31,28 @@ class HomePage extends StatelessWidget {
             pagination: SwiperPagination(),
           ),
         ),
-        FutureBuilder(
-          future: futureStr,
+        ItemMenu(futureStr: futureStr,),
+      ],
+    );
+  }
+}
+
+class ItemMenu extends StatefulWidget {
+
+  Future futureStr;
+
+  ItemMenu({this.futureStr});
+
+  @override
+  _ItemMenuState createState() => _ItemMenuState();
+}
+
+class _ItemMenuState extends State<ItemMenu> {
+  @override
+  Widget build(BuildContext context) {
+    return RefreshIndicator(
+        child: FutureBuilder(
+          future: widget.futureStr,
           builder: (context, snapshot) {
             switch(snapshot.connectionState) {
               case ConnectionState.waiting:
@@ -37,8 +60,10 @@ class HomePage extends StatelessWidget {
               case ConnectionState.done:
                 if(snapshot.hasError) {
                   return Text('${snapshot.error}',style: TextStyle(color: Colors.red),);
-                }else {
+                }else if(snapshot.hasData) {
                   return AreaItem(snapshot.data['result']);
+                }else {
+                  return Container(height: 300, child: ListView(),);
                 }
                 break;
               default:
@@ -46,10 +71,21 @@ class HomePage extends StatelessWidget {
             }
           },
         ),
-      ],
+        onRefresh: () => _handleRefresh()
     );
   }
+
+  Future _handleRefresh() async {
+    String token = await HttpManager.getAuthorization();
+    String mid = '0';
+    String allTag = '0';
+    String m = 'HTAPP';
+    setState(() {
+      widget.futureStr = DataDao.getAppMenu(token, mid, allTag, m);
+    });
+  }
 }
+
 
 class AreaItem extends StatelessWidget {
 
@@ -76,11 +112,9 @@ class AreaItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
+    return Container(
         height: 300.0,
         child: GridView(
-          primary: false,
           padding: const EdgeInsets.all(20.0),
           gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: 100,
@@ -100,7 +134,6 @@ class AreaItem extends StatelessWidget {
 //              functionName: 'goHomeCQ',
 //            ),
         ),
-      ),
     );
   }
 }

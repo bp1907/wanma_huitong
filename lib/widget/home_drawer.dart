@@ -9,6 +9,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:wanma_huitong/common/redux/wm_state.dart';
 import 'package:wanma_huitong/common/style/wm_style.dart';
 import 'package:wanma_huitong/common/utils/navigator_utils.dart';
+import 'package:wanma_huitong/common/utils/screen_util.dart';
 
 class HomeDrawer extends StatelessWidget {
 
@@ -98,16 +99,22 @@ class HomeDrawer extends StatelessWidget {
                     color: Colors.white,
                     child: Column(
                       children: <Widget>[
-                        UserAccountsDrawerHeader(
-                          accountName: Text('王振',style: WMConstant.lagerTextWhite,),
-                          currentAccountPicture: GestureDetector(
-                            onTap: (){},
-                            child: CircleAvatar(
-                              backgroundImage: AssetImage('images/logo.png'),
+                        Container(
+                          height: ScreenUtil().setHeight(380),
+                          child: UserAccountsDrawerHeader(
+                            accountName: Container(
+                              child: Text('王振',style: WMConstant.lagerTextWhite,),
                             ),
-                          ),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).primaryColor,
+                            accountEmail: Text('流程与IT中心', style: WMConstant.middleTextWhite,),
+                            currentAccountPicture: GestureDetector(
+                              onTap: (){},
+                              child: CircleAvatar(
+                                backgroundImage: AssetImage('images/logo.png'),
+                              ),
+                            ),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).primaryColor,
+                            ),
                           ),
                         ),
                         ListTile(

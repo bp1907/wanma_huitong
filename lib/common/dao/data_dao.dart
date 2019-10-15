@@ -25,7 +25,11 @@ class DataDao {
 //      }catch(e) {
 //      }
 //    }
-    return res.data;
+    if(res != null && res.result) {
+      return res.data;
+    }else {
+      return null;
+    }
   }
 
   //获取物联数据
