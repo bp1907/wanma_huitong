@@ -16,7 +16,7 @@ import 'package:wanma_huitong/page/welcome_page.dart';
 import 'package:flutter/rendering.dart' show debugPaintSizeEnabled;
 
 void main() {
-  debugPaintSizeEnabled = true; //打开视觉调试开关
+//  debugPaintSizeEnabled = true; //打开视觉调试开关
   runApp(MyApp());
 }
 
