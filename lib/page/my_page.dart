@@ -1,6 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
+import 'package:wanma_huitong/common/model/User.dart';
+import 'package:wanma_huitong/common/redux/user_reducer.dart';
+import 'package:wanma_huitong/common/redux/wm_state.dart';
 import 'package:wanma_huitong/common/style/wm_style.dart';
 import 'package:wanma_huitong/common/utils/screen_util.dart';
+import 'package:image_picker/image_picker.dart';
 
 class MyPage extends StatelessWidget {
 
@@ -65,38 +73,119 @@ class MyPage extends StatelessWidget {
       );
     } catch (e) {
       print(e);
+      return Center(
+        child: Container(
+          child: Text('加载出错...', style: WMConstant.normalTextLight,),
+        ),
+      );
     }
   }
 }
 
 //顶部用户信息
-class UserInfoDrawer extends StatelessWidget {
+class UserInfoDrawer extends StatefulWidget {
+  @override
+  _UserInfoDrawerState createState() => _UserInfoDrawerState();
+}
+
+class _UserInfoDrawerState extends State<UserInfoDrawer> {
+
+  File _image;
+  File _backgroundImage;
+  
+  Future getImage(isTakePic) async {
+    var image = await ImagePicker.pickImage(source: isTakePic ? ImageSource.camera : ImageSource.gallery);
+    Store<WMState> store = StoreProvider.of(context);
+    User user = User();
+    user.userName = store.state.userInfo.userName;
+    user.password = store.state.userInfo.password;
+    user.image = image.path;
+    //TODO
+    //保存image地址，下次进来直接取
+
+    store.dispatch(UpdateUserAction(user));
+    setState(() {
+      _image = image;
+    });
+  }
+
+  Future getBackgroundImage(isTakePic) async {
+    var image = await ImagePicker.pickImage(source: isTakePic ? ImageSource.camera : ImageSource.gallery);
+
+    //TODO
+    setState(() {
+      _backgroundImage = image;
+    });
+  }
+
+
+  _pickImage(flag) {
+    showModalBottomSheet(context: context, builder: (context) => Container(
+      height: 160,
+      child: Column(
+        children: <Widget>[
+          item('拍照', true, flag),
+          item('从相册选择', false, flag),
+        ],
+      ),
+    )
+    );
+  }
+
+  item(title, isTakePic, flag) {
+    return ListTile(
+      leading: Icon(isTakePic ? Icons.photo_camera : Icons.photo_library),
+      title: Text(title),
+      onTap: () {
+        if(flag) {
+          getImage(isTakePic);
+        }else {
+          getBackgroundImage(isTakePic);
+        }
+        Navigator.pop(context);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: ScreenUtil().setHeight(350),
-      child: UserAccountsDrawerHeader(
-        accountName: Text('王振', style: WMConstant.lagerTextWhite,),
-        accountEmail: Text('15876868787', style: WMConstant.middleTextWhite,),
-        currentAccountPicture: Container(
-          child: InkWell(
-            child: CircleAvatar(
-              backgroundImage: AssetImage('images/logo.png'),
+
+    return StoreBuilder<WMState>(
+      builder: (context, store) {
+        return GestureDetector(
+          onTap: () {
+            _pickImage(false);
+          },
+          child: Container(
+            height: ScreenUtil().setHeight(350),
+            child: UserAccountsDrawerHeader(
+              accountName: Text('王振', style: WMConstant.lagerTextWhite,),
+              accountEmail: Text('15876868787', style: WMConstant.middleTextWhite,),
+              currentAccountPicture: Container(
+                child: InkWell(
+                    child: CircleAvatar(
+                      backgroundImage: _image == null ? AssetImage(store.state.userInfo.image ?? 'images/logo.png') : FileImage(_image),
+                    ),
+                    onTap: () {
+                      //TODO
+                      //点击换头像
+                      _pickImage(true);
+                    }
+                ),
+                width: ScreenUtil().setWidth(20),
+                height: ScreenUtil().setHeight(20),
+              ),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: _backgroundImage == null ? AssetImage('images/bg_person.jpg') :FileImage(_backgroundImage) ,
+                ),
+              ),
             ),
-            onTap: () {},
+            margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(5)),
           ),
-          width: ScreenUtil().setWidth(20),
-          height: ScreenUtil().setHeight(20),
-        ),
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            image:
-            AssetImage('images/bg_person.jpg'),
-          ),
-        ),
-      ),
-      margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(5)),
+        );
+      },
     );
   }
 }

@@ -43,6 +43,8 @@ dev_dependencies:
   fluttertoast: ^2.2.6
   #数据库
   sqflite: ^1.1.0
+  #相册与拍照
+  image_picker: ^0.4.12+1
 
 # The following section is specific to Flutter.
 flutter:

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:wanma_huitong/common/config/config.dart';
 import 'package:wanma_huitong/common/dao/user_dao.dart';
@@ -110,7 +112,7 @@ class HomeDrawer extends StatelessWidget {
                             currentAccountPicture: GestureDetector(
                               onTap: (){},
                               child: CircleAvatar(
-                                backgroundImage: AssetImage('images/logo.png'),
+                                backgroundImage: store.state.userInfo.image == null ? AssetImage('images/logo.png') : FileImage(File(store.state.userInfo.image)),
                               ),
                             ),
                             decoration: BoxDecoration(
@@ -146,6 +148,7 @@ class HomeDrawer extends StatelessWidget {
                           title: Text('检测更新', style: WMConstant.normalText,),
                           onTap: (){
                             //TODO
+//                            showAboutDialog(context, '0.0.1');
                           },
                         ),
                         ListTile(
