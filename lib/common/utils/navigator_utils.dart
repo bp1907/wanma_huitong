@@ -9,8 +9,7 @@ import 'package:wanma_huitong/page/wuxi/pack/packing_density_list.dart';
 import 'package:wanma_huitong/page/wuxi/second_bubble/prepressure_tank_list.dart';
 import 'package:wanma_huitong/page/wuxi/second_bubble/second_bubble_list.dart';
 import 'package:wanma_huitong/page/wuxi/wx_home_page.dart';
-import 'package:wanma_huitong/page/common/question_submission.dart';
-import 'package:wanma_huitong/page/common/version_update.dart';
+
 ///导航栏
 class NavigatorUtils {
 
@@ -75,23 +74,6 @@ class NavigatorUtils {
       ),
     );
   }
-//问题反馈
-static goQuestionSubmission(BuildContext context){
-  Navigator.push(context, 
-  MaterialPageRoute(
-    builder: (context)=> QuestionSubmission(),
-  )
-  );
-}
-
-//版本更新
-static goVersionUpdate(BuildContext context){
-  Navigator.push(context, 
-  MaterialPageRoute(
-    builder: (context)=> VersionUpdate(),
-  ));
-}
-
 
 
 //  static NavigatorRouter(BuildContext context,Widget widget) {
