@@ -13,9 +13,11 @@ class _QuestionSubmissionState extends State<QuestionSubmission> {
         title: Text('问题反馈'),
         centerTitle: true,
       ),
-      body: Container(
+      body: SafeArea(
+        child:SingleChildScrollView(
+          child: Container(
         padding: EdgeInsets.all(20),
-        child: Column(
+          child: Column(
           children: <Widget>[
             Row(children: <Widget>[
               Icon(Icons.mode_edit,color: Colors.blue,),
@@ -43,6 +45,7 @@ class _QuestionSubmissionState extends State<QuestionSubmission> {
             Text('欢迎您为我们提出宝贵的意见和建议，您留下的任何信息都将用来改善我们的软件。',style: TextStyle(color: Colors.grey),),
            InkWell(
              child: Container(
+               margin: EdgeInsets.only(top: 30),
                padding: EdgeInsets.all(10.0),
                alignment: Alignment.center,
                decoration: BoxDecoration(
@@ -61,6 +64,8 @@ class _QuestionSubmissionState extends State<QuestionSubmission> {
             
           ],
         ),
+        )
+        )
       ),
     );
   }
