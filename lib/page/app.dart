@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wanma_huitong/common/config/config.dart';
 import 'package:wanma_huitong/common/dao/data_dao.dart';
+import 'package:wanma_huitong/common/db/provider/user_info_db_provider.dart';
 import 'package:wanma_huitong/common/net/http_manager.dart';
 import 'package:wanma_huitong/page/business_page.dart';
 import 'package:wanma_huitong/page/home_page.dart';
@@ -50,6 +51,8 @@ class _AppState extends State<App> with SingleTickerProviderStateMixin{
     super.initState();
     _pageController = PageController(initialPage: _currentIndex);
     _futureStr = _getAppMenu();
+    UserInfoDbProvider provider = UserInfoDbProvider();
+    provider.queryUser('2005');
   }
 
   Future _getAppMenu() async {

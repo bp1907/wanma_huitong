@@ -46,10 +46,7 @@ class UserInfoDbProvider extends BaseDbProvider {
   @override
   tableSqlString() {
     return tableBaseString(name, columnId) +
-        '''
-        $columnUserName text not null,
-        $columnPassword text not null)
-    ''';
+        '''$columnUserName text not null,$columnPassword text not null)''';
   }
 
   //插入用户到数据库
@@ -75,6 +72,16 @@ class UserInfoDbProvider extends BaseDbProvider {
       return provider;
     }
     return null;
+  }
+
+  //读取用户名
+  Future queryUser(user1) async {
+    Database db = await getDatabase();
+    UserInfoDbProvider provider = await _getUserInfoProvider(db, user1);
+    if(provider != null) {
+      List userInfo = await db.query('UserInfo');
+      print('----------$userInfo-------------');
+    }
   }
 
 }

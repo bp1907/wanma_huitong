@@ -17,7 +17,7 @@ class BaseDbManager {
     var databasesPath = await getDatabasesPath();
     String dbName = _NAME;
 
-    var userName = LocalStorage.get(Config.USER_NAME_KEY);
+    var userName = await LocalStorage.get(Config.USER_NAME_KEY);
     if(userName != null) {
       dbName = userName + '_' + _NAME;
     }
@@ -42,7 +42,7 @@ class BaseDbManager {
 
   ///获取当前数据库对象
   static Future<Database> getCurrentDatabase() async {
-    if(_database != null) {
+    if(_database == null) {
       await init();
     }
     return _database;

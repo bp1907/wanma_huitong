@@ -5,7 +5,7 @@ class LocalStorage {
   static save(String key,value) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setString(key, value);
-  }
+   }
 
   static get(String key) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();

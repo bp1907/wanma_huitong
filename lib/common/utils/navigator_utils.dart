@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wanma_huitong/page/app.dart';
+import 'package:wanma_huitong/page/common/question_submission.dart';
 import 'package:wanma_huitong/page/common/update_pwd.dart';
+import 'package:wanma_huitong/page/common/version_update.dart';
 import 'package:wanma_huitong/page/login_page.dart';
 import 'package:wanma_huitong/page/wuxi/first_bubble/first_bubble_list.dart';
 import 'package:wanma_huitong/page/wuxi/first_bubble/health_bag_list.dart';
@@ -75,6 +77,22 @@ class NavigatorUtils {
     );
   }
 
+  ///问题反馈
+  static goQuestionSubmission(BuildContext context){
+    Navigator.push(context,
+        MaterialPageRoute(
+          builder: (context)=> QuestionSubmission(),
+        )
+    );
+  }
+
+  ///版本更新
+  static goVersionUpdate(BuildContext context){
+    Navigator.push(context,
+        MaterialPageRoute(
+          builder: (context)=> VersionUpdate(),
+        ));
+  }
 
 //  static NavigatorRouter(BuildContext context,Widget widget) {
 //    return Navigator.push(context, CupertinoPageRoute(builder: (context) => widget));

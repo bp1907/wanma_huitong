@@ -12,10 +12,7 @@ abstract class BaseDbProvider {
   tableName();
 
   tableBaseString(String name, String columnId) {
-    return '''
-        create table $name (
-        $columnId integer primary key autoincrement,
-    ''';
+    return '''create table $name ($columnId integer primary key autoincrement,''';
   }
 
   Future<Database> getDatabase() async {
