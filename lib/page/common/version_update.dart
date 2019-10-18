@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:wanma_huitong/common/redux/wm_state.dart';
+import 'dart:io';
 class VersionUpdate extends StatelessWidget {
   final List<String> _funcList = <String>['联系我们','功能介绍','版本更新'];
   @override
@@ -22,12 +24,22 @@ class VersionUpdate extends StatelessWidget {
 }
 //图标 版本简介
 Widget _description(context){
-return  Container(
+  
+return StoreBuilder<WMState>(
+        builder: (context,store){
+return Container(
   padding: EdgeInsets.only(top:20),
   child:Center(
   child: Column(
     children: <Widget>[
-      Image.asset('images/logo.png',width: 80,height: 80,),
+      Container(
+        width: 80,
+        height: 80,
+        child:  CircleAvatar(
+         backgroundImage: store.state.userInfo.image == null ? AssetImage('images/logo.png') : FileImage(File(store.state.userInfo.image)),
+      ),
+      ),
+      
       Container(
         padding: EdgeInsets.only(top: 20,bottom: 5),
         child:Text('万马集团',style: TextStyle(fontSize: 20,fontWeight:FontWeight.bold ),),
@@ -36,6 +48,9 @@ return  Container(
     ],
   ),
   )
+);
+        }
+
 );
 }
 //功能列表

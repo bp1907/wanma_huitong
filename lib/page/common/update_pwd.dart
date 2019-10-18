@@ -18,7 +18,8 @@ class _UpdatePwdState extends State<UpdatePwd> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('修改密码',),centerTitle: true,),
-      body:SingleChildScrollView(
+      body:SafeArea(
+        child: SingleChildScrollView(
         child: Container(
           height:MediaQuery.of(context).size.height-20,
           padding: EdgeInsets.only(left: 20,top: 20,right: 20,bottom: 100),
@@ -38,6 +39,8 @@ class _UpdatePwdState extends State<UpdatePwd> {
           ),
         ),
       ) ,
+      )
+      
     );
   }
 
@@ -57,7 +60,7 @@ Widget _sureNewPwd (context, controller){
 Widget _commonTextFieldSet(context,TextEditingController editingController){
 
   return Container(
-    padding: EdgeInsets.only(top: 10),
+    padding: EdgeInsets.only(top: 20),
     child:   TextField(
 
     decoration: InputDecoration(
@@ -110,7 +113,7 @@ Widget _changeBtn (oldPwd,newPwd,surePwd){
         },
       child: Container(
         padding: EdgeInsets.all(10.0),
-        margin: EdgeInsets.only(top: 20),
+        margin: EdgeInsets.only(top: 35),
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: Colors.blue[600],
