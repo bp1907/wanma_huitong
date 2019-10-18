@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:wanma_huitong/common/dao/user_dao.dart';
 import 'package:wanma_huitong/common/utils/common_utils.dart';
 import 'package:wanma_huitong/common/utils/navigator_utils.dart';
@@ -34,7 +33,7 @@ class _UpdatePwdState extends State<UpdatePwd> {
             _oldPwd(context,_oldPwdController),
             _newPwd(context, _newPwdController),
             _sureNewPwd(context, _sureNewPwdController),
-            _changeBtn(_oldPwdController.text, _newPwdController.text, _sureNewPwdController.text)
+            _changeBtn()
           ],
           ),
         ),
@@ -47,6 +46,7 @@ class _UpdatePwdState extends State<UpdatePwd> {
 
 Widget _oldPwd (context, controller){
   return _commonTextFieldSet('请输入旧密码',controller);
+  
 }
 
 Widget _newPwd (context, controller){
@@ -58,11 +58,10 @@ Widget _sureNewPwd (context, controller){
 }
 
 Widget _commonTextFieldSet(context,TextEditingController editingController){
-
+ 
   return Container(
     padding: EdgeInsets.only(top: 20),
     child:   TextField(
-
     decoration: InputDecoration(
       icon: Icon(Icons.lock),
       labelText: context,
@@ -77,30 +76,26 @@ Widget _commonTextFieldSet(context,TextEditingController editingController){
         ),
         borderRadius: BorderRadius.circular(20.0),
       ),
-      //  focusedBorder: OutlineInputBorder(
-      //  borderSide: BorderSide(
-      //  color: Colors.pink,
-      // ),
-      // ),
-      // hintText: hintStr
     ),
     obscureText: true,
     controller:editingController,
-    onChanged: (values){
-      this.setState((){
-         editingController.text = values;
-      });
+    onChanged: (String values){
     },
+
     
   ),
   
 );
 }
-Widget _changeBtn (oldPwd,newPwd,surePwd){
+
+
+Widget _changeBtn (){
+  
   return InkWell(
     onTap: (){
+       print(_oldPwdController.text);
       CommonUtils.showLoadingDialog(context);
-      UserDao.updatePwd(oldPwd, newPwd, surePwd).then((res) {
+      UserDao.updatePwd(_oldPwdController.text, _newPwdController.text, _sureNewPwdController.text).then((res) {
         Navigator.pop(context);
         if(res != null && res.result){
         Future.delayed(const Duration(seconds: 1), () {
@@ -108,16 +103,17 @@ Widget _changeBtn (oldPwd,newPwd,surePwd){
         return true;
         });
       }
-    });
-      print(oldPwd+newPwd+surePwd);
+    }
+    );
+     
         },
       child: Container(
         padding: EdgeInsets.all(10.0),
         margin: EdgeInsets.only(top: 35),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: Colors.blue[600],
-          // Theme.of(context).primaryColor
+          color: Theme.of(context).primaryColor,
+          // 
           borderRadius: BorderRadius.circular(10.0),
           ),
           child: Text(
