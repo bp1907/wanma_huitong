@@ -10,7 +10,7 @@ class User {
   }
 
   Map<String, dynamic> toJson() {
-    return {userName: userName,password: password,image: image};
+    return {'userName': userName,'password': password,'image': image};
 }
 
   // 命名构造函数
