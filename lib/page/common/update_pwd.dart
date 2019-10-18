@@ -3,123 +3,126 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:wanma_huitong/common/dao/user_dao.dart';
 import 'package:wanma_huitong/common/utils/common_utils.dart';
 import 'package:wanma_huitong/common/utils/navigator_utils.dart';
-//修改密码
+
 class UpdatePwd extends StatefulWidget {
   @override
   _UpdatePwdState createState() => _UpdatePwdState();
 }
 
 class _UpdatePwdState extends State<UpdatePwd> {
-  var _oldPwd = '';
-  var _newPwd = '';
-  var _sureNewPwd = '';
-  final TextEditingController oldPwdController = TextEditingController();
-  final TextEditingController newPwdController = TextEditingController();
-  final TextEditingController sureNewPwdController = TextEditingController();
-
-
+  final TextEditingController _oldPwdController = TextEditingController();
+  final TextEditingController _newPwdController = TextEditingController();
+  final TextEditingController _sureNewPwdController = TextEditingController();
+  
   @override
   Widget build(BuildContext context) {
-
-    oldPwdController.value = TextEditingValue(text: _oldPwd);
-    newPwdController.value = TextEditingValue(text: _newPwd);
-    sureNewPwdController.value = TextEditingValue(text: _sureNewPwd);
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text('修改密码'),
-      ),
-      body: GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        onTap: () {
-          FocusScope.of(context).requestFocus(FocusNode());
-        },
-        child: SafeArea(
-          child: SingleChildScrollView(
-            child: Container(
-              margin: const EdgeInsets.only(left: 30.0,right: 30.0,bottom: 30.0),
-              child: Column(
-                children: <Widget>[
-                  Padding(padding: new EdgeInsets.all(30.0)),
-                  TextField(
-                    decoration: InputDecoration(
-                      hintText:'请输入旧密码',
-                      icon: Icon(Icons.lock),
-                    ),
-                    obscureText: true,
-                    onChanged: (String value){
-                      _oldPwd = value;
-                    },
-                    controller: oldPwdController,
-                  ),
-                  Padding(padding: new EdgeInsets.all(30.0)),
-                  TextField(
-                    decoration: InputDecoration(
-                      hintText:'请输入新密码',
-                      icon: Icon(Icons.lock),
-                    ),
-                    obscureText: true,
-                    onChanged: (String value){
-                      _newPwd = value;
-                    },
-                    controller: newPwdController,
-                  ),
-                  Padding(padding: new EdgeInsets.all(30.0)),
-                  TextField(
-                    decoration: InputDecoration(
-                      hintText:'请确认新密码',
-                      icon: Icon(Icons.lock),
-                    ),
-                    obscureText: true,
-                    onChanged: (String value){
-                      _sureNewPwd = value;
-                    },
-                    controller: sureNewPwdController,
-                  ),
-                  Padding(padding: new EdgeInsets.all(30.0)),
-                  RaisedButton(
-                    padding: EdgeInsets.only(left: 20.0, top: 10.0, right: 20.0, bottom: 10.0),
-                    textColor: Colors.white,
-                    color: Theme.of(context).primaryColor,
-                    child: Flex(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      direction: Axis.horizontal,
-                      children: <Widget>[
-                        Text('确认修改',style: TextStyle(fontSize: 20.0),maxLines: 1,),
-                      ],
-                    ),
-                    onPressed: (){
-                      if(_oldPwd == null || _oldPwd.length == 0) {
-                        Fluttertoast.showToast(msg: '请输入旧密码');
-                        return;
-                      }
-                      if(_newPwd == null || _newPwd.length == 0) {
-                        Fluttertoast.showToast(msg: '请输入新密码');
-                        return;
-                      }
-                      if(_sureNewPwd == null || _sureNewPwd.length == 0) {
-                        Fluttertoast.showToast(msg: '请确认新密码');
-                        return;
-                      }
-                      CommonUtils.showLoadingDialog(context);
-                      UserDao.updatePwd(_oldPwd, _newPwd, _sureNewPwd).then((res) {
-                        Navigator.pop(context);
-                        if(res != null && res.result){
-                          Future.delayed(const Duration(seconds: 1), () {
-                            NavigatorUtils.goLogin(context);
-                            return true;
-                          });
-                        }
-                      });
-                    },
-                  ),
-                  Padding(padding: new EdgeInsets.all(30.0)),
-                ],
+      appBar: AppBar(title: Text('修改密码',),centerTitle: true,),
+      body:SingleChildScrollView(
+        child: Container(
+          height:MediaQuery.of(context).size.height-20,
+          padding: EdgeInsets.only(left: 20,top: 20,right: 20,bottom: 100),
+           decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('images/login_background.jpg'),
+                  fit: BoxFit.fill,
+                ),
               ),
-            ),
+          child: Column(
+          children: <Widget>[
+            _oldPwd(context,_oldPwdController),
+            _newPwd(context, _newPwdController),
+            _sureNewPwd(context, _sureNewPwdController),
+            _changeBtn(_oldPwdController.text, _newPwdController.text, _sureNewPwdController.text)
+          ],
           ),
         ),
-      ),
+      ) ,
     );
   }
+
+
+Widget _oldPwd (context, controller){
+  return _commonTextFieldSet('请输入旧密码',controller);
+}
+
+Widget _newPwd (context, controller){
+  return _commonTextFieldSet('请输入新密码',controller);
+}
+
+Widget _sureNewPwd (context, controller){
+  return _commonTextFieldSet('请确认新密码',controller);
+}
+
+Widget _commonTextFieldSet(context,TextEditingController editingController){
+
+  return Container(
+    padding: EdgeInsets.only(top: 10),
+    child:   TextField(
+
+    decoration: InputDecoration(
+      icon: Icon(Icons.lock),
+      labelText: context,
+      labelStyle: TextStyle(
+        color: Colors.grey,
+        fontSize: 18
+      ),
+     
+      border: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: Colors.pink
+        ),
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      //  focusedBorder: OutlineInputBorder(
+      //  borderSide: BorderSide(
+      //  color: Colors.pink,
+      // ),
+      // ),
+      // hintText: hintStr
+    ),
+    obscureText: true,
+    controller:editingController,
+    onChanged: (values){
+      this.setState((){
+         editingController.text = values;
+      });
+    },
+    
+  ),
+  
+);
+}
+Widget _changeBtn (oldPwd,newPwd,surePwd){
+  return InkWell(
+    onTap: (){
+      CommonUtils.showLoadingDialog(context);
+      UserDao.updatePwd(oldPwd, newPwd, surePwd).then((res) {
+        Navigator.pop(context);
+        if(res != null && res.result){
+        Future.delayed(const Duration(seconds: 1), () {
+        NavigatorUtils.goLogin(context);
+        return true;
+        });
+      }
+    });
+      print(oldPwd+newPwd+surePwd);
+        },
+      child: Container(
+        padding: EdgeInsets.all(10.0),
+        margin: EdgeInsets.only(top: 20),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: Colors.blue[600],
+          // Theme.of(context).primaryColor
+          borderRadius: BorderRadius.circular(10.0),
+          ),
+          child: Text(
+            '确认修改',
+            style: TextStyle(color: Colors.white,fontSize: 18),
+          ),
+        ),     
+);
+}
+
 }
