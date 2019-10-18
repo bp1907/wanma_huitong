@@ -141,14 +141,13 @@ class HomeDrawer extends StatelessWidget {
                         ListTile(
                           title: Text('问题反馈', style: WMConstant.normalText,),
                           onTap: (){
-                            //TODO
+                            NavigatorUtils.goQuestionSubmission(context);
                           },
                         ),
                         ListTile(
                           title: Text('检测更新', style: WMConstant.normalText,),
                           onTap: (){
-                            //TODO
-//                            showAboutDialog(context, '0.0.1');
+                            NavigatorUtils.goVersionUpdate(context);
                           },
                         ),
                         ListTile(
