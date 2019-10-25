@@ -5,6 +5,7 @@ import 'package:wanma_huitong/page/common/question_submission.dart';
 import 'package:wanma_huitong/page/common/update_pwd.dart';
 import 'package:wanma_huitong/page/common/version_update.dart';
 import 'package:wanma_huitong/page/login_page.dart';
+import 'package:wanma_huitong/page/my_page.dart';
 import 'package:wanma_huitong/page/wuxi/first_bubble/first_bubble_list.dart';
 import 'package:wanma_huitong/page/wuxi/first_bubble/health_bag_list.dart';
 import 'package:wanma_huitong/page/wuxi/pack/packing_density_list.dart';
@@ -65,6 +66,15 @@ class NavigatorUtils {
     Navigator.pushNamed(context, PackingDensityList.sName);
   }
 
+  ///我的
+  static goMyPage(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MyPage(),
+      ),
+    );
+  }
 
   ///通用
   ///修改密码

@@ -36,6 +36,7 @@ class _WXHomePageState extends State<WXHomePage> {
 
   @override
   void initState() {
+    super.initState();
     _futureStr = _getWXItem();
   }
 

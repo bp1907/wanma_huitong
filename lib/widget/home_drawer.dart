@@ -110,7 +110,10 @@ class HomeDrawer extends StatelessWidget {
                             ),
                             accountEmail: Text('流程与IT中心', style: WMConstant.middleTextWhite,),
                             currentAccountPicture: GestureDetector(
-                              onTap: (){},
+                              onTap: (){
+                                //跳转到我的页面
+//                                NavigatorUtils.goMyPage(context);
+                              },
                               child: CircleAvatar(
                                 backgroundImage: store.state.userInfo.image == null ? AssetImage('images/logo.png') : FileImage(File(store.state.userInfo.image)),
                               ),

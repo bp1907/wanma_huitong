@@ -20,10 +20,8 @@ class GridItemWidget extends StatelessWidget {
             NavigatorUtils.goHomeWuXi(context,mid);
             break;
           case 'goHomeGZ':
-            Scaffold.of(context).showSnackBar(SnackBar(content: Text('暂未开通')));
             break;
           case 'goHomeCQ':
-            Scaffold.of(context).showSnackBar(SnackBar(content: Text('暂未开通')));
             break;
           case 'goFirstBubbleList':
             NavigatorUtils.goFirstBubbleList(context,mid);
@@ -41,6 +39,7 @@ class GridItemWidget extends StatelessWidget {
             NavigatorUtils.goPackingDensityList(context);
             break;
           default:
+            Scaffold.of(context).showSnackBar(SnackBar(content: Text('暂未开通')));
             break;
         }
       },
