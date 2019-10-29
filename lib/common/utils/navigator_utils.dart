@@ -71,7 +71,7 @@ class NavigatorUtils {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => MyPage(),
+        builder: (context) => App(index: 3,),
       ),
     );
   }

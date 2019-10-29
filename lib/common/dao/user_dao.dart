@@ -45,6 +45,9 @@ class UserDao {
         UserInfoDbProvider provider = UserInfoDbProvider();
         provider.insert(userName, password);
 
+        //取出头像照片地址
+        var imagePath = await LocalStorage.get(Config.AVATAR);
+        user.image = imagePath;
         //保存用户信息
         LocalStorage.save(Config.USER_INFO, json.encode(user.toJson()));
 

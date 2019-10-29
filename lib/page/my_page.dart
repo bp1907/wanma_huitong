@@ -3,26 +3,29 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
+import 'package:wanma_huitong/common/config/config.dart';
+import 'package:wanma_huitong/common/local/local_storage.dart';
 import 'package:wanma_huitong/common/model/User.dart';
 import 'package:wanma_huitong/common/redux/user_reducer.dart';
 import 'package:wanma_huitong/common/redux/wm_state.dart';
 import 'package:wanma_huitong/common/style/wm_style.dart';
 import 'package:wanma_huitong/common/utils/screen_util.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MyPage extends StatelessWidget {
 
 
-  final List<String> midStrings = ['会员中心', '我的购物车', '我的社区'];
+  final List<String> midStrings = ['会员中心', '我的任务', '我的社区'];
 
   final List<IconData> midIcons = [
     Icons.person,
-    Icons.add_shopping_cart,
+    Icons.list,
     Icons.shop,
   ];
 
 
-  final List<String> btmStrings = ['客服电话', '关于社区'];
+  final List<String> btmStrings = ['服务电话', '关于社区'];
 
   final List<IconData> btmIcons = [Icons.call, Icons.error];
 
@@ -88,11 +91,12 @@ class UserInfoDrawer extends StatefulWidget {
   _UserInfoDrawerState createState() => _UserInfoDrawerState();
 }
 
-class _UserInfoDrawerState extends State<UserInfoDrawer> {
+class _UserInfoDrawerState extends State<UserInfoDrawer> with AutomaticKeepAliveClientMixin<UserInfoDrawer>{
 
   File _image;
   File _backgroundImage;
-  
+
+  //我的页面头像
   Future getImage(isTakePic) async {
     var image = await ImagePicker.pickImage(source: isTakePic ? ImageSource.camera : ImageSource.gallery);
     Store<WMState> store = StoreProvider.of(context);
@@ -100,8 +104,9 @@ class _UserInfoDrawerState extends State<UserInfoDrawer> {
     user.userName = store.state.userInfo.userName;
     user.password = store.state.userInfo.password;
     user.image = image.path;
-    //TODO
-    //保存image地址，下次进来直接取
+
+    //保存image地址，下次进来直接取,只做了本地保存
+    await LocalStorage.save(Config.AVATAR, image.path);
 
     store.dispatch(UpdateUserAction(user));
     setState(() {
@@ -109,15 +114,33 @@ class _UserInfoDrawerState extends State<UserInfoDrawer> {
     });
   }
 
+  //我的页面背景图片
   Future getBackgroundImage(isTakePic) async {
     var image = await ImagePicker.pickImage(source: isTakePic ? ImageSource.camera : ImageSource.gallery);
 
-    //TODO
+    //只做了本地保存
+    await LocalStorage.save(Config.BACKGROUND_MY, image.path);
+
     setState(() {
       _backgroundImage = image;
     });
   }
 
+
+  @override
+  void initState() {
+    super.initState();
+    getBackGroundImg();
+  }
+
+  void getBackGroundImg() async{
+    var backGroundImg = await LocalStorage.get(Config.BACKGROUND_MY);
+    if(backGroundImg != null) {
+      setState(() {
+        _backgroundImage = File(backGroundImg);
+      });
+    }
+  }
 
   _pickImage(flag) {
     showModalBottomSheet(context: context, builder: (context) => Container(
@@ -149,7 +172,6 @@ class _UserInfoDrawerState extends State<UserInfoDrawer> {
 
   @override
   Widget build(BuildContext context) {
-
     return StoreBuilder<WMState>(
       builder: (context, store) {
         return GestureDetector(
@@ -160,14 +182,13 @@ class _UserInfoDrawerState extends State<UserInfoDrawer> {
             height: ScreenUtil().setHeight(350),
             child: UserAccountsDrawerHeader(
               accountName: Text('王振', style: WMConstant.lagerTextWhite,),
-              accountEmail: Text('15876868787', style: WMConstant.middleTextWhite,),
+              accountEmail: Text('流程与IT中心', style: WMConstant.middleTextWhite,),
               currentAccountPicture: Container(
                 child: InkWell(
                     child: CircleAvatar(
                       backgroundImage: _image == null ? AssetImage(store.state.userInfo.image ?? 'images/logo.png') : FileImage(_image),
                     ),
                     onTap: () {
-                      //TODO
                       //点击换头像
                       _pickImage(true);
                     }
@@ -188,6 +209,10 @@ class _UserInfoDrawerState extends State<UserInfoDrawer> {
       },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
+
 }
 
 class MyOrderUI extends StatelessWidget {
@@ -206,7 +231,7 @@ class MyOrderUI extends StatelessWidget {
                   child: Icon(Icons.reorder),
                 ),
                 Container(
-                  child: Text('我的订单'),
+                  child: Text('我的中心'),
                 ),
               ],
             ),
@@ -310,13 +335,54 @@ class LoveUI extends StatelessWidget {
             ],
           ),
           onTap: () async {
-            if(names[index] == '客服电话') {
-
+            if(names[index] == '服务电话') {
+              callPhone(context);
             }else if(names[index] == '会员中心') {
 //              NavigatorUtil.push(context, LoginApp());
             }
           }),
     );
+  }
+
+  callPhone(BuildContext context) {
+    var phoneNum = 'tel:' + Config.PHONE_NUM;
+    showAlert(context, '是否拨打技术人员电话？', phoneNum);
+  }
+
+  showAlert(context, msg, url) {
+    if(Platform.isIOS) {
+      makePhoneCall(url);
+    }else {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(msg),
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () {
+                  makePhoneCall(url);
+                  Navigator.pop(context);
+                },
+                child: Text('确定'),
+              ),
+              FlatButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('取消'),
+              ),
+            ],
+          );
+        }
+      );
+    }
+  }
+
+  makePhoneCall(url) async{
+    if(await canLaunch(url)) {
+      await launch(url);
+    }else {
+      throw 'Could not launch $url';
+    }
   }
 }
 

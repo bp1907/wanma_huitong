@@ -13,6 +13,10 @@ import 'package:wanma_huitong/widget/home_drawer.dart';
 
 class App extends StatefulWidget {
   static final String sName = 'home';
+
+  final int index;
+  App({this.index = 0});
+
   @override
   _AppState createState() => _AppState();
 }
@@ -49,10 +53,11 @@ class _AppState extends State<App> with SingleTickerProviderStateMixin{
   @override
   void initState() {
     super.initState();
+    _currentIndex = widget.index;
     _pageController = PageController(initialPage: _currentIndex);
     _futureStr = _getAppMenu();
-    UserInfoDbProvider provider = UserInfoDbProvider();
-    provider.queryUser('2005');
+//    UserInfoDbProvider provider = UserInfoDbProvider();
+//    provider.queryUser('2005');
   }
 
   Future _getAppMenu() async {

@@ -9,6 +9,9 @@ class Config {
   static const USER_INFO = "user_info";
   static const THEME_COLOR = "theme_color";
   static const LOCALE = "locale";
+  static const AVATAR = "avatar";
+  static const BACKGROUND_MY = "my_background";
+  static const PHONE_NUM = "15888812474";
 
   /// //////////////////////////////////////标题常量/////////////////////////////////// ///
   static const APP_TITLE = "万马会通";

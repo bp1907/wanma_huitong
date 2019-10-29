@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:wanma_huitong/common/redux/wm_state.dart';
 import 'dart:io';
+
+import 'package:wanma_huitong/common/utils/navigator_utils.dart';
 class VersionUpdate extends StatelessWidget {
   final List<String> _funcList = <String>['联系我们','功能介绍','版本更新'];
   @override
@@ -35,9 +37,14 @@ return Container(
       Container(
         width: 80,
         height: 80,
-        child:  CircleAvatar(
-         backgroundImage: store.state.userInfo.image == null ? AssetImage('images/logo.png') : FileImage(File(store.state.userInfo.image)),
-      ),
+        child:  InkWell(
+          child: CircleAvatar(
+            backgroundImage: store.state.userInfo.image == null
+                ? AssetImage('images/logo.png')
+                : FileImage(File(store.state.userInfo.image)),
+          ),
+          onTap: () => NavigatorUtils.goMyPage(context),
+        ),
       ),
       
       Container(

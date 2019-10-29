@@ -47,7 +47,8 @@ class ItemMenu extends StatefulWidget {
   _ItemMenuState createState() => _ItemMenuState();
 }
 
-class _ItemMenuState extends State<ItemMenu> {
+class _ItemMenuState extends State<ItemMenu> with AutomaticKeepAliveClientMixin<ItemMenu>{
+
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
@@ -84,6 +85,9 @@ class _ItemMenuState extends State<ItemMenu> {
       widget.futureStr = DataDao.getAppMenu(token, mid, allTag, m);
     });
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 

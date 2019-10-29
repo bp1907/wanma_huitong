@@ -46,7 +46,7 @@ class _WelcomePageState extends State<WelcomePage> {
       builder: (context, store) {
         return Container(
           color: Color(WMColors.white),
-          child: Image.asset('images/welcome.png',),
+          child: Image.asset('images/launch_image.png',),
         );
       },
     );

@@ -112,7 +112,7 @@ class HomeDrawer extends StatelessWidget {
                             currentAccountPicture: GestureDetector(
                               onTap: (){
                                 //跳转到我的页面
-//                                NavigatorUtils.goMyPage(context);
+                                NavigatorUtils.goMyPage(context);
                               },
                               child: CircleAvatar(
                                 backgroundImage: store.state.userInfo.image == null ? AssetImage('images/logo.png') : FileImage(File(store.state.userInfo.image)),

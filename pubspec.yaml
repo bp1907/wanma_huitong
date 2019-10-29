@@ -45,6 +45,8 @@ dev_dependencies:
   sqflite: ^1.1.0
   #相册与拍照
   image_picker: ^0.4.12+1
+  #uri
+  url_launcher: 4.1.0+1
 
 # The following section is specific to Flutter.
 flutter:
@@ -58,7 +60,7 @@ flutter:
     - images/logo.png
     - images/gbg.jpg
     - images/login_background.jpg
-    - images/welcome.png
+    - images/launch_image.png
     - images/bg_person.jpg
   # To add assets to your application, add an assets section, like this:
   # assets:

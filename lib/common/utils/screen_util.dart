@@ -5,8 +5,8 @@ class ScreenUtil {
   static ScreenUtil instance = new ScreenUtil();
 
   //设计稿的设备尺寸修改
-  int _designWidth;
-  int _designHeight;
+  double _designWidth;
+  double _designHeight;
 
   static MediaQueryData _mediaQueryData;
   static double _screenWidth;
@@ -18,7 +18,7 @@ class ScreenUtil {
 
   static double _textScaleFactor;
 
-  ScreenUtil({int width, int height}) {
+  ScreenUtil({double width, double height}) {
     _designWidth = width;
     _designHeight = height;
   }
