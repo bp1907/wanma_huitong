@@ -112,7 +112,7 @@ class HomeDrawer extends StatelessWidget {
                             currentAccountPicture: GestureDetector(
                               onTap: (){
                                 //跳转到我的页面
-                                NavigatorUtils.goMyPage(context);
+//                                NavigatorUtils.goMyPage(context);
                               },
                               child: CircleAvatar(
                                 backgroundImage: store.state.userInfo.image == null ? AssetImage('images/logo.png') : FileImage(File(store.state.userInfo.image)),
@@ -132,24 +132,28 @@ class HomeDrawer extends StatelessWidget {
                         ListTile(
                           title: Text('修改密码', style: WMConstant.normalText,),
                           onTap: (){
+                            Navigator.pop(context);
                             NavigatorUtils.goUpdatePwd(context);
                           },
                         ),
                         ListTile(
                           title: Text('切换主题', style: WMConstant.normalText,),
                           onTap: (){
+                            Navigator.pop(context);
                             showThemeDialog(context,store);
                           },
                         ),
                         ListTile(
                           title: Text('问题反馈', style: WMConstant.normalText,),
                           onTap: (){
+                            Navigator.pop(context);
                             NavigatorUtils.goQuestionSubmission(context);
                           },
                         ),
                         ListTile(
                           title: Text('检测更新', style: WMConstant.normalText,),
                           onTap: (){
+                            Navigator.pop(context);
                             NavigatorUtils.goVersionUpdate(context);
                           },
                         ),

@@ -7,11 +7,11 @@ import 'package:wanma_huitong/widget/grid_item.dart';
 
 class HomePage extends StatelessWidget {
 
-  final List imageUrls;
-  final Future futureStr;
-
-  const HomePage({@required this.imageUrls, @required this.futureStr});
-
+  final List _imageUrls = [
+    'images/gbg.jpg',
+    'images/gbg.jpg',
+    'images/gbg.jpg',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -20,28 +20,38 @@ class HomePage extends StatelessWidget {
         Container(
           height: 180.0,
           child: Swiper(
-            itemCount: imageUrls.length,
+            itemCount: _imageUrls.length,
             autoplay: true,
             itemBuilder: (BuildContext context, int index){
               return Image.asset(
-                imageUrls[index],
+                _imageUrls[index],
                 fit: BoxFit.fill,
               );
             },
             pagination: SwiperPagination(),
           ),
         ),
-        ItemMenu(futureStr: futureStr,),
+        ItemMenu(),
       ],
     );
   }
 }
 
+Future _getAppMenu() async {
+//    AppMenuModel appMenuModel;
+  String token = await HttpManager.getAuthorization();
+  String mid = '0';
+  String allTag = '0';
+  String m = 'HTAPP';
+  var data = await DataDao.getAppMenu(token, mid, allTag, m);
+//    if(appMenuModel.code == '0'){
+//      return json.decode(JsonString.mockdata);
+  return data;
+//    }
+}
+
 class ItemMenu extends StatefulWidget {
 
-  Future futureStr;
-
-  ItemMenu({this.futureStr});
 
   @override
   _ItemMenuState createState() => _ItemMenuState();
@@ -49,11 +59,20 @@ class ItemMenu extends StatefulWidget {
 
 class _ItemMenuState extends State<ItemMenu> with AutomaticKeepAliveClientMixin<ItemMenu>{
 
+  Future _futureStr;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _futureStr = _getAppMenu();
+  }
+
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
         child: FutureBuilder(
-          future: widget.futureStr,
+          future: _futureStr,
           builder: (context, snapshot) {
             switch(snapshot.connectionState) {
               case ConnectionState.waiting:
@@ -68,6 +87,7 @@ class _ItemMenuState extends State<ItemMenu> with AutomaticKeepAliveClientMixin<
                 }
                 break;
               default:
+                return Container();
                 break;
             }
           },
@@ -82,7 +102,7 @@ class _ItemMenuState extends State<ItemMenu> with AutomaticKeepAliveClientMixin<
     String allTag = '0';
     String m = 'HTAPP';
     setState(() {
-      widget.futureStr = DataDao.getAppMenu(token, mid, allTag, m);
+      _futureStr = DataDao.getAppMenu(token, mid, allTag, m);
     });
   }
 

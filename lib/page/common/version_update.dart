@@ -43,7 +43,7 @@ return Container(
                 ? AssetImage('images/logo.png')
                 : FileImage(File(store.state.userInfo.image)),
           ),
-          onTap: () => NavigatorUtils.goMyPage(context),
+          onTap: () {},
         ),
       ),
       

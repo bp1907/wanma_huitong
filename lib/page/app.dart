@@ -55,35 +55,15 @@ class _AppState extends State<App> with SingleTickerProviderStateMixin{
     super.initState();
     _currentIndex = widget.index;
     _pageController = PageController(initialPage: _currentIndex);
-    _futureStr = _getAppMenu();
 //    UserInfoDbProvider provider = UserInfoDbProvider();
 //    provider.queryUser('2005');
-  }
-
-  Future _getAppMenu() async {
-//    AppMenuModel appMenuModel;
-    String token = await HttpManager.getAuthorization();
-    String mid = '0';
-    String allTag = '0';
-    String m = 'HTAPP';
-    var data = await DataDao.getAppMenu(token, mid, allTag, m);
-//    if(appMenuModel.code == '0'){
-//      return json.decode(JsonString.mockdata);
-    return data;
-//    }
   }
 
   @override
   Widget build(BuildContext context) {
 
-  List _imageUrls = [
-    'images/gbg.jpg',
-    'images/gbg.jpg',
-    'images/gbg.jpg',
-  ];
-
   List<Widget> _pageList = [
-    HomePage(imageUrls: _imageUrls, futureStr: _futureStr,),
+    HomePage(),
     ServicePage(),
     BusinessPage(),
     MyPage(),
@@ -98,6 +78,11 @@ class _AppState extends State<App> with SingleTickerProviderStateMixin{
       ),
       body: PageView(
         controller: _pageController,
+        onPageChanged: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
         children: _pageList,
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -136,8 +121,8 @@ class _AppState extends State<App> with SingleTickerProviderStateMixin{
 
   @override
   void dispose() {
-    // TODO: implement dispose
 //    tabController.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 }

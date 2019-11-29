@@ -3,8 +3,23 @@ import 'package:wanma_huitong/common/style/wm_style.dart';
 import 'package:wanma_huitong/widget/grid_item.dart';
 
 class ServicePage extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
+    _data.clear();
+    _data = [
+      {'title':'科技申报'},
+      {'title':'服务电话'},
+      {'title':'问题反馈'},
+      {'title':'来访登记'},
+      {'title':'停车缴费'},
+      {'title':'技术服务'},
+      {'title':'服务预约'},
+      {'title':'活动申报'},
+      {'title':'企业展示'},
+      {'title':'行业资讯'},
+    ];
+
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,18 +47,7 @@ class ServicePage extends StatelessWidget {
     );
   }
 
-  final  List _data = [
-    {'title':'科技申报'},
-    {'title':'服务电话'},
-    {'title':'问题反馈'},
-    {'title':'来访登记'},
-    {'title':'停车缴费'},
-    {'title':'技术服务'},
-    {'title':'服务预约'},
-    {'title':'活动申报'},
-    {'title':'企业展示'},
-    {'title':'行业资讯'},
-  ];
+  List _data = [];
 
   final _items = <Widget>[];
 

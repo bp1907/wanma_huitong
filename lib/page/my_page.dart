@@ -110,7 +110,7 @@ class _UserInfoDrawerState extends State<UserInfoDrawer> with AutomaticKeepAlive
 
     store.dispatch(UpdateUserAction(user));
     setState(() {
-      _image = image;
+//      _image = image;
     });
   }
 
@@ -186,7 +186,7 @@ class _UserInfoDrawerState extends State<UserInfoDrawer> with AutomaticKeepAlive
               currentAccountPicture: Container(
                 child: InkWell(
                     child: CircleAvatar(
-                      backgroundImage: _image == null ? AssetImage(store.state.userInfo.image ?? 'images/logo.png') : FileImage(_image),
+                      backgroundImage: store.state.userInfo.image == null ? AssetImage('images/logo.png') : FileImage(File(store.state.userInfo.image)),
                     ),
                     onTap: () {
                       //点击换头像

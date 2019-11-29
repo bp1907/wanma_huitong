@@ -46,7 +46,9 @@ dev_dependencies:
   #相册与拍照
   image_picker: ^0.4.12+1
   #uri
-  url_launcher: 4.1.0+1
+  url_launcher: ^4.1.0+1
+  #缓存
+  flutter_cache_manager: ^1.1.3
 
 # The following section is specific to Flutter.
 flutter:
