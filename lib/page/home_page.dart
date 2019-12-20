@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:wanma_huitong/common/dao/data_dao.dart';
+import 'package:wanma_huitong/common/dao/user_dao.dart';
+import 'package:wanma_huitong/common/db/base_db_manager.dart';
+import 'package:wanma_huitong/common/net/code.dart';
 import 'package:wanma_huitong/common/net/http_manager.dart';
+import 'package:wanma_huitong/common/redux/wm_state.dart';
+import 'package:wanma_huitong/common/utils/navigator_utils.dart';
 import 'package:wanma_huitong/page/app.dart';
 import 'package:wanma_huitong/widget/grid_item.dart';
+import 'package:redux/redux.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 
 class HomePage extends StatelessWidget {
 
@@ -71,29 +78,34 @@ class _ItemMenuState extends State<ItemMenu> with AutomaticKeepAliveClientMixin<
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-        child: FutureBuilder(
-          future: _futureStr,
-          builder: (context, snapshot) {
-            switch(snapshot.connectionState) {
-              case ConnectionState.waiting:
-                return Center(child: CircularProgressIndicator(semanticsLabel: '加载中...',),);
-              case ConnectionState.done:
-                if(snapshot.hasError) {
-                  return Text('${snapshot.error}',style: TextStyle(color: Colors.red),);
-                }else if(snapshot.hasData) {
-                  return AreaItem(snapshot.data['result']);
-                }else {
-                  return Container(height: 300, child: ListView(),);
-                }
-                break;
-              default:
-                return Container();
-                break;
-            }
-          },
-        ),
-        onRefresh: () => _handleRefresh()
-    );
+              child: FutureBuilder(
+                future: _futureStr,
+                builder: (context, snapshot) {
+                  switch(snapshot.connectionState) {
+                    case ConnectionState.waiting:
+                      return Center(child: CircularProgressIndicator(semanticsLabel: '加载中...',),);
+                    case ConnectionState.done:
+                      if(snapshot.hasError) {
+                        return Text('${snapshot.error}',style: TextStyle(color: Colors.red),);
+                      }else if(snapshot.hasData) {
+                        if(snapshot.data['code'] == 0) {
+                          return AreaItem(snapshot.data['result']);
+                        }else {
+                          return Container(height: 300, child: ListView(),);
+                        }
+                      }else {
+                        return Container(height: 300, child: ListView(),);
+                      }
+                      break;
+                    default:
+                      return Container();
+                      break;
+                  }
+                },
+              ),
+              onRefresh: () => _handleRefresh()
+          );
+
   }
 
   Future _handleRefresh() async {
